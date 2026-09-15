@@ -13,7 +13,7 @@ import {
 
 import styles from "./CriteresAppreciation.module.css";
 
-import Sidebar from "../../pages/Sidebar";
+import RhSidebar from "../../pages/RhSidebar";
 import Header from "../../component/Header/Header";
 
 import {
@@ -375,7 +375,7 @@ const CriteresAppreciation = () => {
 
   return (
     <div className={styles.container}>
-      <Sidebar />
+      <RhSidebar />
 
       <div className={styles.mainArea}>
         <Header
@@ -494,9 +494,6 @@ const CriteresAppreciation = () => {
                       <div className={styles.cardBody}>
                         <div className={styles.cardHeader}>
                           <div>
-                            <span className={styles.cardId}>
-                              #{id}
-                            </span>
 
                             <h2>
                               {critere.nom ||

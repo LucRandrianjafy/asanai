@@ -55,7 +55,7 @@ CREATE TABLE users (
 CREATE TABLE user_information (
     id SERIAL PRIMARY KEY,
     id_programme INTEGER NOT NULL,
-    id_user INTEGER NOT NULL UNIQUE,
+    id_user INTEGER NOT NULL,
 
     -- candidat
     niveau_etudes VARCHAR(100),
@@ -78,6 +78,9 @@ CREATE TABLE user_information (
         REFERENCES programme(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
+
+    CONSTRAINT uq_user_information_programme
+        UNIQUE (id_user, id_programme),
     CONSTRAINT fk_user_information_user
         FOREIGN KEY (id_user)
         REFERENCES users(id)
@@ -156,4 +159,36 @@ CREATE TABLE appreciation (
 
     CONSTRAINT uq_appreciation_critere_libelle
         UNIQUE (id_critere, libelle)
+);
+
+CREATE TABLE candidat_appreciation (
+    id SERIAL PRIMARY KEY,
+    id_user_information INTEGER NOT NULL,
+    id_rh INTEGER NOT NULL,
+    id_critere INTEGER NOT NULL,
+    id_appreciation INTEGER NOT NULL,
+    date_appreciation TIMESTAMP DEFAULT NOW(),
+
+    CONSTRAINT fk_ca_user_information
+        FOREIGN KEY (id_user_information)
+        REFERENCES user_information(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_ca_rh
+        FOREIGN KEY (id_rh)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_ca_critere
+        FOREIGN KEY (id_critere)
+        REFERENCES critere_appreciation(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_ca_appreciation
+        FOREIGN KEY (id_appreciation)
+        REFERENCES appreciation(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT uq_ca_user_critere
+        UNIQUE (id_user_information, id_critere)
 );

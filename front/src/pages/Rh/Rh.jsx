@@ -17,6 +17,16 @@ import RhSidebar from "../../pages/RhSidebar";
 import Header from "../../component/Header/Header";
 import { getAllCandidatsScores } from "../../api/candidatScoreFinal";
 import { getAllProgrammes } from "../../api/programme";
+import { getAllCritereAppreciationActif } from "../../api/critereAppreciation";
+import { getAllAppreciationActif } from "../../api/appreciation";
+import {
+  createCandidatAppreciation,
+  getCandidatAppreciationByUserInformationId,
+  updateCandidatAppreciation,
+} from "../../api/candidatAppreciation";
+import {
+  getAllUserInformation,
+} from "../../api/userInformation";
 
 const Rh = () => {
   const [candidats, setCandidats] = useState([]);
@@ -26,67 +36,197 @@ const Rh = () => {
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [candidateTab, setCandidateTab] = useState("interview");
   const [programmes, setProgrammes] = useState([]);
+  const [candidateProgrammes, setCandidateProgrammes] = useState([]);
   const [selectedProgrammeId, setSelectedProgrammeId] = useState("");
-  const [interviewGrid, setInterviewGrid] = useState({
-    motivation: "",
-    savoirEtre: "",
-    disponibilite: "",
-    adequationPoste: "",
-  });
+  const [interviewCriteria, setInterviewCriteria] = useState([]);
+  const [interviewGrid, setInterviewGrid] = useState({});
+  const [candidateAppreciations, setCandidateAppreciations] = useState([]);
+  const [interviewLoading, setInterviewLoading] = useState(false);
+  const [interviewSaving, setInterviewSaving] = useState(false);
+  const [interviewError, setInterviewError] = useState("");
+  const [interviewSuccess, setInterviewSuccess] = useState("");
+  const [userInformationId, setUserInformationId] = useState(null);
   const [recommendation, setRecommendation] = useState("");
 
-  const interviewCriteria = [
-    {
-      key: "motivation",
-      label: "Motivation",
-      options: [
-        ["0", "Insuffisante"],
-        ["15", "Satisfaisante"],
-        ["25", "Très satisfaisante"],
-      ],
-    },
-    {
-      key: "savoirEtre",
-      label: "Savoir-être",
-      options: [
-        ["0", "Insuffisant"],
-        ["15", "Satisfaisant"],
-        ["25", "Très satisfaisant"],
-      ],
-    },
-    {
-      key: "disponibilite",
-      label: "Disponibilité confirmée",
-      options: [
-        ["0", "Non"],
-        ["15", "À confirmer"],
-        ["25", "Oui"],
-      ],
-    },
-    {
-      key: "adequationPoste",
-      label: "Adéquation au poste",
-      options: [
-        ["0", "Insuffisante"],
-        ["15", "Satisfaisante"],
-        ["25", "Très satisfaisante"],
-      ],
-    },
-  ];
+  const getId = (item, ...keys) => {
+    for (const key of keys) {
+      if (item?.[key] !== undefined && item?.[key] !== null) {
+        return item[key];
+      }
+    }
 
-  const openInterview = (candidat) => {
+    return null;
+  };
+
+  const getCritereId = (critere) =>
+    getId(critere, "id", "idCritere", "id_critere");
+
+  const getAppreciationId = (appreciation) =>
+    getId(appreciation, "id", "idAppreciation", "id_appreciation");
+
+  const getAppreciationCritereId = (appreciation) =>
+    getId(appreciation, "idCritere", "id_critere");
+
+  const getAppreciationLabel = (appreciation) =>
+    appreciation.libelle ?? appreciation.libelleAppreciation ?? "Sans libellé";
+
+  const getAppreciationPoints = (appreciation) =>
+    Number(appreciation?.points) || 0;
+
+  const getCandidateUserInformationId = (candidate) =>
+    candidate.userInformationId ?? candidate.idUserInformation;
+
+  const getUserId = (candidate) =>
+    candidate.idUser ?? candidate.id_user ?? candidate.id;
+
+  const getUserInformationId = (information) =>
+    getId(information, "id", "idUserInformation", "userInformationId");
+
+  const getUserInformationUserId = (information) =>
+    getId(information, "idUser", "id_user");
+
+  const getUserInformationProgrammeId = (information) =>
+    getId(information, "idProgramme", "id_programme");
+
+  useEffect(() => {
+    const fetchInterviewCriteria = async () => {
+      try {
+        const [criteres, appreciations] = await Promise.all([
+          getAllCritereAppreciationActif(),
+          getAllAppreciationActif(),
+        ]);
+        const activeAppreciations = Array.isArray(appreciations)
+          ? appreciations
+          : [];
+
+        setInterviewCriteria(
+          (Array.isArray(criteres) ? criteres : []).map((critere) => ({
+            ...critere,
+            options: activeAppreciations.filter(
+              (appreciation) =>
+                String(getAppreciationCritereId(appreciation)) ===
+                String(getCritereId(critere))
+            ),
+          }))
+        );
+      } catch (err) {
+        setInterviewError(
+          err.message || "Impossible de charger les critères d'entretien."
+        );
+      }
+    };
+
+    fetchInterviewCriteria();
+  }, []);
+
+  const loadInterviewForProgramme = async (candidat, programmeId) => {
+    setInterviewGrid({});
+    setCandidateAppreciations([]);
+    setUserInformationId(null);
+    setInterviewError("");
+    setInterviewSuccess("");
+
+    try {
+      setInterviewLoading(true);
+
+      const informationList = await getAllUserInformation();
+      const candidateInformationList = (Array.isArray(informationList)
+        ? informationList
+        : []
+      ).filter(
+        (information) =>
+          Number(getUserInformationUserId(information)) ===
+          Number(getUserId(candidat))
+      );
+
+      const candidateProgrammeIds = new Set(
+        candidateInformationList.map((information) =>
+          String(getUserInformationProgrammeId(information))
+        )
+      );
+      const programmeList = programmes.length
+        ? programmes
+        : await getAllProgrammes();
+
+      if (!programmes.length) {
+        setProgrammes(Array.isArray(programmeList) ? programmeList : []);
+      }
+
+      setCandidateProgrammes(
+        (Array.isArray(programmeList) ? programmeList : []).filter((programme) =>
+          candidateProgrammeIds.has(String(getProgrammeId(programme)))
+        )
+      );
+
+      const selectedInformation = candidateInformationList.find(
+        (information) =>
+          Number(getUserInformationProgrammeId(information)) ===
+          Number(programmeId)
+      );
+      const candidateInformation =
+        selectedInformation ?? candidateInformationList[0];
+
+      if (!candidateInformation) {
+        setSelectedProgrammeId("");
+        return;
+      }
+
+      const resolvedProgrammeId = getUserInformationProgrammeId(
+        candidateInformation
+      );
+      setSelectedProgrammeId(resolvedProgrammeId);
+
+      const resolvedUserInformationId = getUserInformationId(candidateInformation);
+      const saved = await getCandidatAppreciationByUserInformationId(
+        resolvedUserInformationId
+      );
+      const savedList = Array.isArray(saved) ? saved : [];
+
+      setUserInformationId(resolvedUserInformationId);
+      setCandidateAppreciations(savedList);
+      setInterviewGrid(
+        savedList.reduce((answers, answer) => {
+          answers[String(answer.idCritere ?? answer.id_critere)] = String(
+            answer.idAppreciation ?? answer.id_appreciation
+          );
+          return answers;
+        }, {})
+      );
+    } catch (err) {
+      setInterviewError(
+        err.message || "Impossible de charger la grille d'entretien."
+      );
+    } finally {
+      setInterviewLoading(false);
+    }
+  };
+
+  const openInterview = async (candidat) => {
+    const programmeId =
+      candidat.idProgramme ?? candidat.id_programme ?? "";
+
     setSelectedCandidate(candidat);
     setCandidateTab("interview");
-    setSelectedProgrammeId(
-      candidat.idProgramme ?? candidat.id_programme ?? ""
-    );
-    setInterviewGrid({
-      motivation: "",
-      savoirEtre: "",
-      disponibilite: "",
-      adequationPoste: "",
-    });
+    setSelectedProgrammeId("");
+    setCandidateProgrammes([]);
     setRecommendation("");
+    await loadInterviewForProgramme(candidat, programmeId);
+  };
+
+  const handleProgrammeChange = async (event) => {
+    const programmeId = event.target.value;
+
+    setSelectedProgrammeId(programmeId);
+
+    if (selectedCandidate && programmeId) {
+      await loadInterviewForProgramme(selectedCandidate, programmeId);
+    } else {
+      setUserInformationId(null);
+      setInterviewGrid({});
+      setCandidateAppreciations([]);
+      setInterviewError("");
+      setInterviewSuccess("");
+    }
   };
 
   const closeInterview = () => {
@@ -100,10 +240,86 @@ const Rh = () => {
     }));
   };
 
-  const interviewScore = Object.values(interviewGrid).reduce(
-    (total, value) => total + (Number(value) || 0),
+  const interviewScore = Object.entries(interviewGrid).reduce(
+    (total, [criterionId, appreciationId]) => {
+      const appreciation = interviewCriteria
+        .find((criterion) => String(getCritereId(criterion)) === String(criterionId))
+        ?.options.find(
+          (option) => String(getAppreciationId(option)) === String(appreciationId)
+        );
+
+      return total + getAppreciationPoints(appreciation);
+    },
     0
   );
+
+  const saveInterview = async () => {
+    setInterviewSuccess("");
+
+    if (!selectedCandidate || !selectedProgrammeId) {
+      setInterviewError("Le candidat et le programme sont obligatoires.");
+      return;
+    }
+
+    const currentUser = JSON.parse(localStorage.getItem("user") || "null");
+    const idRh = currentUser?.id;
+
+    if (!idRh) {
+      setInterviewError("Impossible d'identifier le RH connecté.");
+      return;
+    }
+
+    try {
+      setInterviewSaving(true);
+      setInterviewError("");
+
+      if (!userInformationId) {
+        setInterviewError(
+          "Aucune information n'existe pour ce programme et ce candidat."
+        );
+        return;
+      }
+
+      const resolvedUserInformationId = userInformationId;
+
+      const savedByCritere = new Map(
+        candidateAppreciations.map((item) => [
+          String(item.idCritere ?? item.id_critere),
+          item,
+        ])
+      );
+
+      await Promise.all(
+        Object.entries(interviewGrid).map(async ([idCritere, idAppreciation]) => {
+          const payload = {
+            idUserInformation: Number(resolvedUserInformationId),
+            idRh: Number(idRh),
+            idCritere: Number(idCritere),
+            idAppreciation: Number(idAppreciation),
+          };
+          const existing = savedByCritere.get(String(idCritere));
+
+          if (existing?.id) {
+            await updateCandidatAppreciation(existing.id, payload);
+          } else {
+            await createCandidatAppreciation(payload);
+          }
+        })
+      );
+
+      const refreshed = await getCandidatAppreciationByUserInformationId(
+        resolvedUserInformationId
+      );
+      setCandidateAppreciations(Array.isArray(refreshed) ? refreshed : []);
+      setInterviewSuccess("L'entretien a été enregistré avec succès.");
+    } catch (err) {
+      setInterviewError(
+        err.message || "Impossible d'enregistrer l'entretien."
+      );
+    } finally {
+      setInterviewSaving(false);
+    }
+  };
 
   const formatDate = (value) => {
     if (!value) {
@@ -145,14 +361,14 @@ const Rh = () => {
       <span>Programme à consulter</span>
       <select
         value={selectedProgrammeId}
-        onChange={(event) =>
-          setSelectedProgrammeId(event.target.value)
-        }
+        onChange={handleProgrammeChange}
       >
         <option value="">
-          Sélectionner un programme
+          {candidateProgrammes.length > 0
+            ? "Sélectionner un programme"
+            : "Aucun programme lié"}
         </option>
-        {programmes.map((programme) => (
+        {candidateProgrammes.map((programme) => (
           <option
             key={getProgrammeId(programme)}
             value={getProgrammeId(programme)}
@@ -633,41 +849,79 @@ const Rh = () => {
               {candidateTab === "interview" && <>
               {renderProgrammeSelector()}
 
-              <div className={styles.interviewGrid}>
-                <div className={styles.gridHeader}>
-                  <span>Critère</span>
-                  <span>Appréciation</span>
+              {interviewLoading && (
+                <div className={styles.interviewState}>
+                  <div className="spinner-border" role="status" aria-hidden="true" />
+                  Chargement de l'entretien...
                 </div>
+              )}
 
-                {interviewCriteria.map((criterion) => (
-                  <div className={styles.gridRow} key={criterion.key}>
-                    <strong>{criterion.label}</strong>
+              {interviewError && (
+                <div className={styles.interviewError}>
+                  <FaExclamationCircle />
+                  <span>{interviewError}</span>
+                </div>
+              )}
 
-                    <div className={styles.radioGroup}>
-                      {criterion.options.map(([value, label]) => (
-                        <label className={styles.radioOption} key={value}>
-                          <input
-                            type="radio"
-                            name={criterion.key}
-                            value={value}
-                            checked={
-                              interviewGrid[criterion.key] === value
-                            }
-                            onChange={(event) =>
-                              updateInterviewCriterion(
-                                criterion.key,
-                                event.target.value
-                              )
-                            }
-                          />
-                          <span>{label}</span>
-                          <small>{value} pts</small>
-                        </label>
-                      ))}
-                    </div>
+              {interviewSuccess && (
+                <div className={styles.interviewSuccess} role="status">
+                  <span aria-hidden="true">✓</span>
+                  <span>{interviewSuccess}</span>
+                </div>
+              )}
+
+              {!interviewLoading && interviewCriteria.length === 0 && !interviewError && (
+                <div className={styles.interviewState}>
+                  Aucun critère actif n'est disponible.
+                </div>
+              )}
+
+              {!interviewLoading && interviewCriteria.length > 0 && (
+                <div className={styles.interviewGrid}>
+                  <div className={styles.gridHeader}>
+                    <span>Critère</span>
+                    <span>Appréciation</span>
                   </div>
-                ))}
-              </div>
+
+                  {interviewCriteria.map((criterion) => {
+                    const criterionId = getCritereId(criterion);
+
+                    return (
+                      <div className={styles.gridRow} key={criterionId}>
+                        <strong>{criterion.nom ?? criterion.label ?? "Sans nom"}</strong>
+
+                        <div className={styles.radioGroup}>
+                          {criterion.options.map((option) => {
+                            const appreciationId = getAppreciationId(option);
+
+                            return (
+                              <label className={styles.radioOption} key={appreciationId}>
+                                <input
+                                  type="radio"
+                                  name={`critere-${criterionId}`}
+                                  value={appreciationId}
+                                  checked={
+                                    interviewGrid[String(criterionId)] ===
+                                    String(appreciationId)
+                                  }
+                                  onChange={(event) =>
+                                    updateInterviewCriterion(
+                                      String(criterionId),
+                                      event.target.value
+                                    )
+                                  }
+                                />
+                                <span>{getAppreciationLabel(option)}</span>
+                                <small>{getAppreciationPoints(option)} pts</small>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
 
               <div className={styles.interviewScore}>
                 <span>Score de l'entretien</span>
@@ -696,6 +950,20 @@ const Rh = () => {
                   ))}
                 </div>
               </div>
+
+              <button
+                type="button"
+                className={styles.saveInterviewButton}
+                onClick={saveInterview}
+                disabled={
+                  interviewSaving ||
+                  interviewLoading ||
+                  !selectedProgrammeId ||
+                  !userInformationId
+                }
+              >
+                {interviewSaving ? "Enregistrement..." : "Enregistrer l'entretien"}
+              </button>
               </>}
             </aside>
           </>
