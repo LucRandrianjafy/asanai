@@ -2096,7 +2096,7 @@ const CandidatDetailsView = () => {
                           {
                             candidatScore.noteSkillMatching
                           }{" "}
-                          / 45
+                          / 52
                         </strong>
 
                       </div>
@@ -2116,7 +2116,7 @@ const CandidatDetailsView = () => {
                           {
                             candidatScore.notePrequalification
                           }{" "}
-                          / 55
+                          / 48
                         </strong>
 
                       </div>

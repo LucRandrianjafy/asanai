@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
   FaExclamationCircle,
@@ -15,6 +15,7 @@ import {
 import styles from "./Rh.module.css";
 import RhSidebar from "../../pages/RhSidebar";
 import Header from "../../component/Header/Header";
+import DecisionFinale from "../../component/DecisionFinale/DecisionFinale";
 import { getAllCandidatsScores } from "../../api/candidatScoreFinal";
 import { getAllProgrammes } from "../../api/programme";
 import { getAllCritereAppreciationActif } from "../../api/critereAppreciation";
@@ -46,7 +47,7 @@ const Rh = () => {
   const [interviewError, setInterviewError] = useState("");
   const [interviewSuccess, setInterviewSuccess] = useState("");
   const [userInformationId, setUserInformationId] = useState(null);
-  const [recommendation, setRecommendation] = useState("");
+  const decisionFinaleRef = useRef(null);
 
   const getId = (item, ...keys) => {
     for (const key of keys) {
@@ -72,9 +73,6 @@ const Rh = () => {
 
   const getAppreciationPoints = (appreciation) =>
     Number(appreciation?.points) || 0;
-
-  const getCandidateUserInformationId = (candidate) =>
-    candidate.userInformationId ?? candidate.idUserInformation;
 
   const getUserId = (candidate) =>
     candidate.idUser ?? candidate.id_user ?? candidate.id;
@@ -209,7 +207,6 @@ const Rh = () => {
     setCandidateTab("interview");
     setSelectedProgrammeId("");
     setCandidateProgrammes([]);
-    setRecommendation("");
     await loadInterviewForProgramme(candidat, programmeId);
   };
 
@@ -258,7 +255,7 @@ const Rh = () => {
 
     if (!selectedCandidate || !selectedProgrammeId) {
       setInterviewError("Le candidat et le programme sont obligatoires.");
-      return;
+      return false;
     }
 
     const currentUser = JSON.parse(localStorage.getItem("user") || "null");
@@ -266,7 +263,7 @@ const Rh = () => {
 
     if (!idRh) {
       setInterviewError("Impossible d'identifier le RH connecté.");
-      return;
+      return false;
     }
 
     try {
@@ -277,7 +274,7 @@ const Rh = () => {
         setInterviewError(
           "Aucune information n'existe pour ce programme et ce candidat."
         );
-        return;
+        return false;
       }
 
       const resolvedUserInformationId = userInformationId;
@@ -311,14 +308,25 @@ const Rh = () => {
         resolvedUserInformationId
       );
       setCandidateAppreciations(Array.isArray(refreshed) ? refreshed : []);
-      setInterviewSuccess("L'entretien a été enregistré avec succès.");
+      return true;
     } catch (err) {
       setInterviewError(
         err.message || "Impossible d'enregistrer l'entretien."
       );
+      return false;
     } finally {
       setInterviewSaving(false);
     }
+  };
+
+  const saveInterviewAndDecision = async () => {
+    const interviewSaved = await saveInterview();
+
+    if (!interviewSaved || !decisionFinaleRef.current) {
+      return;
+    }
+
+    await decisionFinaleRef.current.save();
   };
 
   const formatDate = (value) => {
@@ -812,13 +820,13 @@ const Rh = () => {
                     <div>
                       <span>Skill matching</span>
                       <strong>
-                        {displayValue(selectedCandidate.noteSkillMatching)} / 45
+                        {displayValue(selectedCandidate.noteSkillMatching)} / 52
                       </strong>
                     </div>
                     <div>
                       <span>Préqualification</span>
                       <strong>
-                        {displayValue(selectedCandidate.notePrequalification)} / 55
+                        {displayValue(selectedCandidate.notePrequalification)} / 48
                       </strong>
                     </div>
                     <div>
@@ -928,33 +936,19 @@ const Rh = () => {
                 <strong>{interviewScore} / 100</strong>
               </div>
 
-              <div className={styles.recommendationSection}>
-                <h3>Recommandation finale</h3>
-                <p>Le RH formule une recommandation finale.</p>
-
-                <div className={styles.recommendationOptions}>
-                  {[
-                    ["admis", "Admis"],
-                    ["non-retenu", "Non retenu"],
-                    ["liste-attente", "Liste d'attente"],
-                  ].map(([value, label]) => (
-                    <button
-                      type="button"
-                      className={styles.recommendationOption}
-                      key={value}
-                      aria-pressed={recommendation === value}
-                      onClick={() => setRecommendation(value)}
-                    >
-                      <span>{label}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
+              <DecisionFinale
+                ref={decisionFinaleRef}
+                idUserInformation={userInformationId}
+                idRh={JSON.parse(localStorage.getItem("user") || "null")?.id}
+                styles={styles}
+                onSuccess={setInterviewSuccess}
+                onError={setInterviewError}
+              />
 
               <button
                 type="button"
                 className={styles.saveInterviewButton}
-                onClick={saveInterview}
+                onClick={saveInterviewAndDecision}
                 disabled={
                   interviewSaving ||
                   interviewLoading ||
@@ -962,7 +956,9 @@ const Rh = () => {
                   !userInformationId
                 }
               >
-                {interviewSaving ? "Enregistrement..." : "Enregistrer l'entretien"}
+                {interviewSaving
+                  ? "Enregistrement..."
+                  : "Enregistrer "}
               </button>
               </>}
             </aside>

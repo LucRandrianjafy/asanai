@@ -13,7 +13,7 @@ const FormateurSidebar = () => {
   const [open, setOpen] = useState(false);
 
   const menuItems = [
-    { path: "/formateur/overview", icon: FaClipboardList, label: "Test" },
+    // { path: "/formateur/overview", icon: FaClipboardList, label: "Test" },
     { path: "/formateur/candidat", icon: FaUserGraduate, label: "Candidat" }
   ];
 

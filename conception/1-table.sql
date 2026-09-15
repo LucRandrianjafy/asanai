@@ -192,3 +192,26 @@ CREATE TABLE candidat_appreciation (
     CONSTRAINT uq_ca_user_critere
         UNIQUE (id_user_information, id_critere)
 );
+
+
+CREATE TABLE decision_finale (
+    id SERIAL PRIMARY KEY,
+    id_user_information INTEGER NOT NULL UNIQUE,
+    id_rh INTEGER NOT NULL,
+    decision VARCHAR(20) NOT NULL,
+    date_evaluation TIMESTAMP DEFAULT NOW(),
+
+    CONSTRAINT fk_decision_user_information
+        FOREIGN KEY (id_user_information)
+        REFERENCES user_information(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_decision_rh
+        FOREIGN KEY (id_rh)
+        REFERENCES users(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+
+    CONSTRAINT chk_decision_valeur
+        CHECK (decision IN ('admis', 'non-retenu', 'liste-attente'))
+);

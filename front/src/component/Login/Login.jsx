@@ -132,7 +132,7 @@ function Login({ onGoToRegister }) {
         response.role.toLowerCase() === "formateur"
       ) {
 
-        navigate("/formateur/overview");
+        navigate("/formateur/candidat");
 
       } else {
 
