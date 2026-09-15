@@ -17,6 +17,7 @@ import ItCandidat from "./pages/ItCandidat";
 import ItCandidatDetails from "./pages/ItCandidatDetails";
 import TestNiveau from "./pages/TestNiveau";
 import Rh from "./pages/Rh";
+import CriteresAppreciation from "./pages/CriteresAppreciation";
 import Formateur from "./pages/Formateur";
 import FormateurCandidat from "./pages/FormateurCandidat";
 import FormateurCandidatDetails from "./pages/FormateurCandidatDetails";
@@ -52,6 +53,7 @@ function App() {
             <Route path="/adminit/qcm/:testId" element={<TestNiveau />} />
 
             <Route path="/rh/overview" element={<Rh />} />
+            <Route path="/rh/criteres" element={<CriteresAppreciation />} />
 
             <Route path="/formateur/overview" element={<Formateur />} />
             <Route path="/formateur/candidat" element={<FormateurCandidat />} />

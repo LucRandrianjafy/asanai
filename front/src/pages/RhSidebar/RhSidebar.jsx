@@ -2,14 +2,9 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { 
   FaTachometerAlt, 
-  FaUserFriends, 
-  FaLayerGroup, 
-  FaBookmark, 
   FaSignOutAlt,
   FaBars,
-  FaChartBar,
   FaTimes,
-  FaRegCalendarCheck
 } from "react-icons/fa";
 import styles from "./RhSidebar.module.css";
 
@@ -17,7 +12,8 @@ const RhSidebar = () => {
   const [open, setOpen] = useState(false);
 
   const menuItems = [
-    { path: "/rh/overview", icon: FaTachometerAlt, label: "Candidat" }
+    { path: "/rh/overview", icon: FaTachometerAlt, label: "Candidat" },
+    { path: "/rh/criteres", icon: FaTachometerAlt, label: "Critères" }
   ];
 
   const handleCloseSidebar = () => setOpen(false);

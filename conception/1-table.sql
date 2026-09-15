@@ -131,3 +131,29 @@ CREATE TABLE test_niveau_question(
     FOREIGN KEY(id_test_niveau) REFERENCES test_niveau(id),
     FOREIGN KEY(id_categorie_question) REFERENCES categorie_question(id)
 );
+
+CREATE TABLE critere_appreciation (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT,
+    statut BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE appreciation (
+    id SERIAL PRIMARY KEY,
+    id_critere INTEGER NOT NULL,
+    libelle VARCHAR(100) NOT NULL,
+    points NUMERIC(5,2) NOT NULL DEFAULT 0,
+    statut BOOLEAN NOT NULL DEFAULT TRUE,
+
+    CONSTRAINT fk_appreciation_critere
+        FOREIGN KEY (id_critere)
+        REFERENCES critere_appreciation(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT chk_appreciation_points
+        CHECK (points >= 0),
+
+    CONSTRAINT uq_appreciation_critere_libelle
+        UNIQUE (id_critere, libelle)
+);
