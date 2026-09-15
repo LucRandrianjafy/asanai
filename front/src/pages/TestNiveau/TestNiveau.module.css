@@ -1,0 +1,1929 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&family=Inter:wght@400;500;600;700&display=swap');
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+.container {
+  --ink: #16233b;
+  --ink-soft: #55617a;
+  --ink-faint: #8a93a6;
+
+  --paper: #f4f6f9;
+  --surface: #ffffff;
+
+  --border: #e3e7ee;
+  --border-soft: #eef1f4;
+
+  --accent: #26507e;
+  --accent-deep: #16324f;
+
+  --success: #1e7952;
+  --success-bg: #eaf6f0;
+
+  --danger: #b23838;
+  --danger-bg: #fbeaea;
+
+  --font-display: "Newsreader", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+
+  overflow-x: hidden;
+
+  background: var(--paper);
+  color: var(--ink);
+
+  font-family: var(--font-body);
+
+  box-sizing: border-box;
+}
+
+.container *,
+.container *::before,
+.container *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   CONTENU PRINCIPAL
+========================================================= */
+
+.mainContent {
+  flex: 1 1 auto;
+
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   CONTENU PAGE
+========================================================= */
+
+.content {
+  width: 100%;
+  max-width: 1180px;
+
+  margin: 0 auto;
+  margin-left: 225px;
+
+  padding: 25px 20px 40px;
+  padding-top: 72px;
+
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   PAGE HEADER
+   GAUCHE       CENTRE                 DROITE
+   Retour       Gestion du test        Ajouter
+========================================================= */
+
+.pageHeader {
+  width: 100%;
+  max-width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(150px, 1fr)
+    minmax(280px, 1.5fr)
+    minmax(150px, 1fr);
+
+  align-items: center;
+
+  gap: 15px;
+
+  margin-bottom: 22px;
+}
+
+/* =========================================================
+   ZONE GAUCHE
+========================================================= */
+
+.pageHeaderLeft {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* =========================================================
+   ZONE CENTRALE
+========================================================= */
+
+.pageHeaderInfo {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.pageHeader h1 {
+  width: 100%;
+
+  margin: 0 0 5px;
+
+  color: var(--ink);
+
+  font-family: var(--font-display);
+
+  font-size: 27px;
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  overflow-wrap: anywhere;
+}
+
+.pageHeader p {
+  width: 100%;
+  max-width: 680px;
+
+  margin: 0;
+
+  color: var(--ink-soft);
+
+  font-size: 12px;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   ZONE DROITE
+========================================================= */
+
+.pageHeaderRight {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* =========================================================
+   BOUTON RETOUR
+========================================================= */
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  max-width: 100%;
+
+  padding: 5px 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: var(--accent);
+
+  font-family: var(--font-body);
+
+  font-size: 11px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.backButton:hover {
+  color: var(--accent-deep);
+
+  transform: translateX(-2px);
+}
+
+.backButton svg {
+  flex-shrink: 0;
+
+  font-size: 9px;
+}
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 6px;
+
+  margin-top: 4px;
+
+  color: var(--ink-faint);
+
+  font-size: 9.5px;
+  font-weight: 500;
+}
+
+.breadcrumb svg {
+  font-size: 7px;
+
+  color: #aeb6c4;
+}
+
+/* =========================================================
+   BOUTON PRINCIPAL
+========================================================= */
+
+.primaryButton {
+  flex: 0 1 auto;
+
+  min-height: 38px;
+  max-width: 100%;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding: 0 14px;
+
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+
+  background: var(--accent);
+  color: #ffffff;
+
+  font-family: var(--font-body);
+
+  font-size: 10.5px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.primaryButton:hover {
+  background: var(--accent-deep);
+
+  border-color: var(--accent-deep);
+
+  box-shadow:
+    0 4px 12px rgba(22, 50, 79, 0.15);
+
+  transform: translateY(-1px);
+}
+
+.primaryButton:active {
+  transform: translateY(0);
+}
+
+.primaryButton svg {
+  flex-shrink: 0;
+
+  font-size: 9px;
+}
+
+/* =========================================================
+   INFORMATIONS QCM
+========================================================= */
+
+.qcmHeader {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  padding: 17px 19px;
+
+  margin-bottom: 13px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 7px;
+
+  box-shadow:
+    0 1px 2px rgba(20, 35, 59, 0.03);
+
+  overflow: hidden;
+}
+
+.qcmInfo {
+  min-width: 0;
+}
+
+.qcmTitleRow {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 9px;
+}
+
+.qcmTitleRow h2 {
+  min-width: 0;
+
+  margin: 0;
+
+  color: var(--ink);
+
+  font-family: var(--font-display);
+
+  font-size: 20px;
+  font-weight: 600;
+
+  line-height: 1.3;
+
+  overflow-wrap: anywhere;
+}
+
+.qcmHeader p {
+  margin: 5px 0 0;
+
+  color: var(--ink-soft);
+
+  font-size: 10.5px;
+
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 4px 8px;
+
+  border-radius: 5px;
+
+  background: var(--success-bg);
+
+  border: 1px solid #d5ecdf;
+
+  color: var(--success);
+
+  font-size: 9px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.statusBadge svg {
+  font-size: 8px;
+}
+
+/* =========================================================
+   STATISTIQUES
+========================================================= */
+
+.statsGrid {
+  width: 100%;
+  max-width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 11px;
+
+  margin-bottom: 22px;
+}
+
+.statCard {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 14px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 7px;
+
+  box-shadow:
+    0 1px 2px rgba(20, 35, 59, 0.03);
+
+  overflow: hidden;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.statCard:hover {
+  border-color: #d5dce6;
+
+  box-shadow:
+    0 4px 14px rgba(20, 35, 59, 0.06);
+
+  transform: translateY(-1px);
+}
+
+.statIcon {
+  width: 38px;
+  height: 38px;
+
+  min-width: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #edf4fa;
+
+  border: 1px solid #dce8f2;
+
+  color: var(--accent);
+
+  font-size: 14px;
+}
+
+.statContent {
+  min-width: 0;
+}
+
+.statCard span {
+  display: block;
+
+  color: var(--ink-faint);
+
+  font-size: 9.5px;
+  font-weight: 500;
+
+  line-height: 1.3;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.statCard strong {
+  display: block;
+
+  margin-top: 2px;
+
+  color: var(--ink);
+
+  font-size: 18px;
+  font-weight: 700;
+
+  line-height: 1.2;
+}
+
+/* =========================================================
+   HEADER QUESTIONS
+========================================================= */
+
+.questionsHeader {
+  width: 100%;
+  max-width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 10px;
+}
+
+.questionsHeader > div {
+  min-width: 0;
+
+  display: flex;
+  align-items: baseline;
+
+  gap: 8px;
+}
+
+.questionsHeader h3 {
+  margin: 0;
+
+  color: var(--ink);
+
+  font-family: var(--font-display);
+
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.questionsHeader span {
+  color: var(--ink-faint);
+
+  font-size: 9.5px;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+/* =========================================================
+   LISTE QUESTIONS
+========================================================= */
+
+.questionsList {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+/* =========================================================
+   CARTE QUESTION
+========================================================= */
+
+.questionCard {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 7px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 1px 2px rgba(20, 35, 59, 0.03);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.questionCard:hover {
+  border-color: #d7dde6;
+
+  box-shadow:
+    0 3px 12px rgba(20, 35, 59, 0.05);
+}
+
+.questionCardEditing {
+  border-color: #b8c9da;
+
+  box-shadow:
+    0 4px 18px rgba(38, 80, 126, 0.08);
+}
+
+/* =========================================================
+   QUESTION HEADER
+========================================================= */
+
+.questionHeader {
+  width: 100%;
+  min-width: 0;
+
+  min-height: 52px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 9px 13px;
+
+  border-bottom: 1px solid var(--border-soft);
+
+  background: #fafbfd;
+}
+
+/* =========================================================
+   NUMÉRO
+========================================================= */
+
+.questionNumber {
+  width: 32px;
+  height: 32px;
+
+  min-width: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+
+  background: #edf4fa;
+
+  border: 1px solid #dce8f2;
+
+  color: var(--accent);
+
+  font-size: 9.5px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   META
+========================================================= */
+
+.questionMeta {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 10px;
+}
+
+.questionMeta span {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 4px;
+
+  color: var(--ink-faint);
+
+  font-size: 9px;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+.questionMeta svg {
+  color: var(--accent);
+
+  font-size: 8px;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.questionActions {
+  margin-left: auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  flex-shrink: 0;
+}
+
+.editButton,
+.deleteButton {
+  height: 29px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  border-radius: 5px;
+
+  font-family: var(--font-body);
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.editButton {
+  padding: 0 9px;
+
+  border: 1px solid #dce8f2;
+
+  background: #f5f9fc;
+
+  color: var(--accent);
+
+  font-size: 9.5px;
+  font-weight: 600;
+}
+
+.editButton:hover {
+  background: #edf4fa;
+
+  border-color: #c8d9e8;
+}
+
+.editButton svg {
+  font-size: 9px;
+}
+
+.deleteButton {
+  width: 29px;
+  min-width: 29px;
+
+  padding: 0;
+
+  border: 1px solid transparent;
+
+  background: transparent;
+
+  color: var(--ink-faint);
+
+  font-size: 10px;
+}
+
+.deleteButton:hover {
+  background: var(--danger-bg);
+
+  border-color: #f0d2d2;
+
+  color: var(--danger);
+}
+
+/* =========================================================
+   CORPS QUESTION
+========================================================= */
+
+.questionBody {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  padding: 16px 17px 0;
+}
+
+.questionBody h4 {
+  width: 100%;
+
+  margin: 0 0 13px;
+
+  color: var(--ink);
+
+  font-size: 12.5px;
+  font-weight: 600;
+
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* =========================================================
+   RÉPONSES
+========================================================= */
+
+.answersList {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+.answerItem {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  min-height: 39px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 7px 9px;
+
+  border: 1px solid var(--border-soft);
+
+  border-radius: 5px;
+
+  background: #fafbfd;
+
+  overflow: hidden;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.answerItem:hover {
+  background: #f7f9fb;
+
+  border-color: #dfe4eb;
+}
+
+.answerCorrect {
+  background: var(--success-bg);
+
+  border-color: #d5ecdf;
+}
+
+/* =========================================================
+   LETTRE
+========================================================= */
+
+.answerLetter {
+  width: 24px;
+  height: 24px;
+
+  min-width: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  border: 1px solid #dfe4eb;
+
+  color: var(--ink-soft);
+
+  font-size: 8.5px;
+  font-weight: 700;
+}
+
+.correctLetter {
+  background: var(--success-bg);
+
+  border-color: #bfe1cf;
+
+  color: var(--success);
+}
+
+/* =========================================================
+   TEXTE RÉPONSE
+========================================================= */
+
+.answerText {
+  min-width: 0;
+
+  flex: 1;
+
+  color: var(--ink-soft);
+
+  font-size: 10.5px;
+
+  line-height: 1.4;
+
+  overflow-wrap: anywhere;
+
+  word-break: break-word;
+}
+
+.answerCorrect .answerText {
+  color: #285e47;
+
+  font-weight: 500;
+}
+
+/* =========================================================
+   BADGE
+========================================================= */
+
+.correctBadge {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 4px;
+
+  padding: 3px 6px;
+
+  border-radius: 4px;
+
+  background: #ffffff;
+
+  border: 1px solid #cfe5d9;
+
+  color: var(--success);
+
+  font-size: 8px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.correctBadge svg {
+  font-size: 7px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.questionFooter {
+  width: 100%;
+  max-width: 100%;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 15px;
+
+  margin-top: 13px;
+
+  padding: 10px 0;
+
+  border-top: 1px solid var(--border-soft);
+}
+
+.questionFooter > div {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 4px;
+
+  color: var(--ink-faint);
+
+  font-size: 9px;
+}
+
+.questionFooter svg {
+  color: var(--accent);
+
+  font-size: 8px;
+}
+
+.questionFooter strong {
+  color: var(--ink-soft);
+
+  font-weight: 600;
+}
+
+/* =========================================================
+   FORMULAIRE
+========================================================= */
+
+.editForm {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  padding: 17px;
+}
+
+.formGroup {
+  width: 100%;
+  min-width: 0;
+
+  margin-bottom: 0;
+}
+
+.formGroup label,
+.answersEdit > label {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: var(--ink);
+
+  font-size: 9.5px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.formGroup textarea,
+.formGroup input,
+.answerEditRow input[type="text"] {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  border: 1px solid var(--border);
+
+  border-radius: 5px;
+
+  background: #ffffff;
+
+  color: var(--ink);
+
+  font-family: var(--font-body);
+
+  font-size: 10.5px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.formGroup textarea {
+  min-height: 72px;
+
+  padding: 9px 10px;
+
+  line-height: 1.5;
+
+  resize: vertical;
+}
+
+.formGroup input {
+  height: 36px;
+
+  padding: 0 9px;
+}
+
+.formGroup textarea:focus,
+.formGroup input:focus,
+.answerEditRow input[type="text"]:focus {
+  border-color: #9eb6cc;
+
+  box-shadow:
+    0 0 0 3px rgba(38, 80, 126, 0.08);
+}
+
+/* =========================================================
+   RÉPONSES ÉDITION
+========================================================= */
+
+.answersEdit {
+  width: 100%;
+  max-width: 100%;
+
+  margin-top: 15px;
+}
+
+.answerEditRow {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    27px
+    minmax(0, 1fr)
+    110px;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin-bottom: 7px;
+}
+
+.answerEditRow:last-child {
+  margin-bottom: 0;
+}
+
+.answerEditRow input[type="text"] {
+  height: 35px;
+
+  padding: 0 9px;
+}
+
+/* =========================================================
+   BONNE RÉPONSE
+========================================================= */
+
+.correctCheckbox {
+  min-width: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  color: var(--ink-faint);
+
+  font-size: 8.5px;
+
+  cursor: pointer;
+
+  width: 100%;
+}
+
+.correctCheckbox input {
+  width: 13px;
+  height: 13px;
+
+  min-width: 13px;
+
+  margin: 0;
+
+  accent-color: var(--accent);
+
+  cursor: pointer;
+}
+
+.correctCheckbox span {
+  white-space: nowrap;
+}
+
+/* =========================================================
+   POINTS / TEMPS
+========================================================= */
+
+.settingsGrid {
+  width: 100%;
+  max-width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+
+  margin-top: 15px;
+}
+
+.inputWithSuffix {
+  position: relative;
+
+  width: 100%;
+  max-width: 100%;
+}
+
+.inputWithSuffix input {
+  padding-right: 38px;
+}
+
+.inputWithSuffix span {
+  position: absolute;
+
+  right: 10px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: var(--ink-faint);
+
+  font-size: 9px;
+  font-weight: 500;
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   ACTIONS ÉDITION
+========================================================= */
+
+.editActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin-top: 17px;
+
+  padding-top: 13px;
+
+  border-top: 1px solid var(--border-soft);
+}
+
+.secondaryButton,
+.saveButton {
+  min-height: 33px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  padding: 0 12px;
+
+  border-radius: 5px;
+
+  font-family: var(--font-body);
+
+  font-size: 9.5px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.secondaryButton {
+  border: 1px solid var(--border);
+
+  background: #ffffff;
+
+  color: var(--ink-soft);
+}
+
+.secondaryButton:hover {
+  background: #f7f8fa;
+
+  border-color: #d4dae3;
+
+  color: var(--ink);
+}
+
+.saveButton {
+  border: 1px solid var(--accent);
+
+  background: var(--accent);
+
+  color: #ffffff;
+}
+
+.saveButton:hover {
+  border-color: var(--accent-deep);
+
+  background: var(--accent-deep);
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.emptyQuestions {
+  width: 100%;
+  max-width: 100%;
+
+  min-height: 250px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px 20px;
+
+  text-align: center;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 7px;
+
+  color: var(--ink-faint);
+}
+
+.emptyQuestions > svg {
+  width: 45px;
+  height: 45px;
+
+  padding: 12px;
+
+  margin-bottom: 10px;
+
+  border-radius: 50%;
+
+  background: #edf4fa;
+
+  border: 1px solid #dce8f2;
+
+  color: var(--accent);
+}
+
+.emptyQuestions h4 {
+  margin: 0 0 5px;
+
+  color: var(--ink);
+
+  font-family: var(--font-display);
+
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.emptyQuestions p {
+  margin: 0 0 13px;
+
+  color: var(--ink-faint);
+
+  font-size: 10px;
+}
+
+/* =========================================================
+   ÉCRAN MOYEN
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .content {
+    max-width: 100%;
+
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .pageHeader {
+    grid-template-columns:
+      minmax(130px, 1fr)
+      minmax(250px, 1.5fr)
+      minmax(130px, 1fr);
+
+    gap: 10px;
+  }
+
+  .pageHeader h1 {
+    font-size: 24px;
+  }
+
+  .pageHeader p {
+    font-size: 11px;
+  }
+
+  .primaryButton {
+    padding-left: 11px;
+    padding-right: 11px;
+  }
+
+  .statsGrid {
+    gap: 8px;
+  }
+
+  .statCard {
+    padding: 12px;
+  }
+
+  .answerEditRow {
+    grid-template-columns:
+      27px
+      minmax(0, 1fr)
+      100px;
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991.98px) {
+
+  .content {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 25px 15px 35px;
+
+    padding-top: 70px;
+  }
+
+  .pageHeader {
+    grid-template-columns:
+      minmax(110px, 1fr)
+      minmax(220px, 1.5fr)
+      minmax(110px, 1fr);
+  }
+
+  .pageHeader h1 {
+    font-size: 22px;
+  }
+
+  .pageHeader p {
+    font-size: 10px;
+  }
+
+  .statsGrid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+  .questionBody {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .editForm {
+    padding: 15px;
+  }
+
+  .answerEditRow {
+    grid-template-columns:
+      27px
+      minmax(0, 1fr);
+  }
+
+  .correctCheckbox {
+    grid-column: 2;
+
+    justify-content: flex-start;
+  }
+}
+
+/* =========================================================
+   PETIT TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+  .content {
+    width: 100%;
+    max-width: 100%;
+
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .pageHeader {
+    grid-template-columns:
+      1fr 1fr;
+
+    grid-template-areas:
+      "center center"
+      "left right";
+
+    gap: 10px;
+  }
+
+  .pageHeaderLeft {
+    grid-area: left;
+  }
+
+  .pageHeaderInfo {
+    grid-area: center;
+  }
+
+  .pageHeaderRight {
+    grid-area: right;
+  }
+
+  .pageHeader h1 {
+    font-size: 23px;
+  }
+
+  .pageHeader p {
+    max-width: 550px;
+  }
+
+  .pageHeaderRight {
+    justify-content: flex-end;
+  }
+
+  .primaryButton {
+    width: auto;
+
+    align-self: flex-end;
+  }
+
+  .statsGrid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+  .statCard {
+    gap: 7px;
+  }
+
+  .statIcon {
+    width: 34px;
+    height: 34px;
+
+    min-width: 34px;
+  }
+
+  .statCard strong {
+    font-size: 16px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767.98px) {
+
+  .content {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 18px 12px 30px;
+
+    padding-top: 70px;
+  }
+
+  .pageHeader {
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    grid-template-areas:
+      "center"
+      "left"
+      "right";
+
+    gap: 10px;
+
+    margin-bottom: 18px;
+  }
+
+  .pageHeaderInfo {
+    width: 100%;
+
+    text-align: center;
+  }
+
+  .pageHeader h1 {
+    font-size: 22px;
+  }
+
+  .pageHeader p {
+    font-size: 10.5px;
+  }
+
+  .pageHeaderLeft {
+    justify-content: flex-start;
+  }
+
+  .pageHeaderRight {
+    justify-content: stretch;
+  }
+
+  .backButton {
+    font-size: 10px;
+  }
+
+  .primaryButton {
+    width: 100%;
+
+    align-self: stretch;
+  }
+
+  /* QCM */
+
+  .qcmHeader {
+    padding: 14px;
+  }
+
+  .qcmTitleRow {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 6px;
+  }
+
+  .qcmTitleRow h2 {
+    font-size: 18px;
+  }
+
+  /* STATS */
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+
+    gap: 8px;
+  }
+
+  .statCard {
+    width: 100%;
+  }
+
+  /* QUESTIONS HEADER */
+
+  .questionsHeader h3 {
+    font-size: 18px;
+  }
+
+  /* QUESTION HEADER */
+
+  .questionHeader {
+    min-height: auto;
+
+    display: grid;
+
+    grid-template-columns:
+      32px
+      minmax(0, 1fr);
+
+    align-items: start;
+
+    gap: 7px;
+
+    padding: 9px 10px;
+  }
+
+  .questionNumber {
+    width: 32px;
+    height: 32px;
+
+    min-width: 32px;
+  }
+
+  .questionMeta {
+    min-width: 0;
+
+    align-self: center;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+  }
+
+  .questionActions {
+    grid-column: 1 / -1;
+
+    width: 100%;
+
+    margin-left: 0;
+
+    justify-content: flex-end;
+
+    padding-top: 2px;
+  }
+
+  .editButton {
+    flex: 1;
+  }
+
+  /* QUESTION */
+
+  .questionBody {
+    padding: 13px 10px 0;
+  }
+
+  .questionBody h4 {
+    font-size: 11.5px;
+  }
+
+  /* ANSWERS */
+
+  .answerItem {
+    align-items: flex-start;
+
+    padding: 7px;
+
+    gap: 7px;
+  }
+
+  .answerLetter {
+    width: 23px;
+    height: 23px;
+
+    min-width: 23px;
+
+    margin-top: 1px;
+  }
+
+  .answerText {
+    font-size: 10px;
+  }
+
+  .correctBadge {
+    display: none;
+  }
+
+  /* FOOTER */
+
+  .questionFooter {
+    flex-wrap: wrap;
+
+    gap: 7px 13px;
+  }
+
+  /* EDITION */
+
+  .editForm {
+    padding: 13px 10px;
+  }
+
+  .settingsGrid {
+    grid-template-columns: 1fr;
+
+    gap: 10px;
+  }
+
+  .answerEditRow {
+    grid-template-columns:
+      25px
+      minmax(0, 1fr);
+
+    gap: 6px;
+  }
+
+  .correctCheckbox {
+    grid-column: 2;
+
+    min-width: 0;
+
+    justify-content: flex-start;
+  }
+
+  .editActions {
+    width: 100%;
+
+    flex-direction: column-reverse;
+
+    align-items: stretch;
+  }
+
+  .secondaryButton,
+  .saveButton {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   TRÈS PETIT MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .content {
+    padding: 13px 9px 25px;
+
+    padding-top: 67px;
+  }
+
+  .pageHeader h1 {
+    font-size: 20px;
+  }
+
+  .pageHeader p {
+    font-size: 10px;
+  }
+
+  .backButton {
+    font-size: 10px;
+  }
+
+  .qcmHeader {
+    padding: 12px;
+  }
+
+  .qcmTitleRow h2 {
+    font-size: 17px;
+  }
+
+  .qcmHeader p {
+    font-size: 10px;
+  }
+
+  .statCard {
+    padding: 11px;
+  }
+
+  .statIcon {
+    width: 33px;
+    height: 33px;
+
+    min-width: 33px;
+
+    font-size: 12px;
+  }
+
+  .statCard span {
+    font-size: 9px;
+  }
+
+  .statCard strong {
+    font-size: 16px;
+  }
+
+  .questionsHeader h3 {
+    font-size: 17px;
+  }
+
+  .questionBody h4 {
+    font-size: 11px;
+  }
+
+  .answerText {
+    font-size: 9.5px;
+  }
+
+  .questionFooter > div {
+    font-size: 8.5px;
+  }
+
+  .editForm {
+    padding: 12px 9px;
+  }
+
+  .formGroup label,
+  .answersEdit > label {
+    font-size: 9px;
+  }
+
+  .formGroup textarea,
+  .formGroup input,
+  .answerEditRow input[type="text"] {
+    font-size: 10px;
+  }
+
+  .correctCheckbox {
+    font-size: 8.5px;
+  }
+}
+
+/* =========================================================
+   PROTECTION CONTRE LE SCROLL HORIZONTAL
+========================================================= */
+
+.container,
+.mainContent,
+.content,
+.pageHeader,
+.qcmHeader,
+.statsGrid,
+.questionsList,
+.questionCard,
+.questionHeader,
+.questionBody,
+.editForm,
+.answersList,
+.answersEdit,
+.answerItem,
+.statCard {
+  max-width: 100%;
+}
+
+.container img,
+.container svg,
+.container button,
+.container input,
+.container textarea,
+.container select {
+  max-width: 100%;
+}
+
+.container input,
+.container textarea,
+.container select {
+  box-sizing: border-box;
+}
+
+.container h1,
+.container h2,
+.container h3,
+.container h4,
+.container p,
+.container span,
+.container label {
+  overflow-wrap: anywhere;
+}
+
+.container button {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   GRAND ÉCRAN
+   On garde une largeur raisonnable.
+   PAS D'AGRANDISSEMENT À 1500px.
+========================================================= */
+
+@media (min-width: 1400px) {
+
+  .content {
+    max-width: 1180px;
+
+    padding-left: 25px;
+    padding-right: 25px;
+
+    /* CONSERVÉ */
+    margin-right: 15%;
+  }
+}

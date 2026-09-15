@@ -1,0 +1,519 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&family=Inter:wght@400;500;600;700&display=swap');
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.adminContainer {
+  --ink: #16233b;
+  --ink-soft: #55617a;
+  --ink-faint: #8a93a6;
+
+  --paper: #f4f6f9;
+  --surface: #ffffff;
+
+  --border: #e3e7ee;
+
+  --accent: #26507e;
+  --accent-deep: #16324f;
+
+  --danger: #b23838;
+
+  --font-display: "Newsreader", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  min-height: 100vh;
+
+  background: var(--paper);
+
+  color: var(--ink);
+
+  font-family: var(--font-body);
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.mainContent {
+  flex: 1;
+
+  min-width: 0;
+
+  margin-left: 170px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content {
+  width: 100%;
+
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding: 40px;
+
+  padding-top: 75px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.pageHeader {
+  margin-bottom: 25px;
+}
+
+.backButton {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 0;
+
+  margin-bottom: 12px;
+
+  border: none;
+
+  background: transparent;
+
+  color: var(--ink-soft);
+
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+.backButton:hover {
+  color: var(--accent);
+}
+
+.title {
+  margin: 0;
+
+  font-family: var(--font-display);
+
+  color: var(--ink);
+
+  font-size: 28px;
+
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 5px 0 0;
+
+  color: var(--ink-soft);
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form {
+  width: 100%;
+}
+
+
+/* =========================================================
+   SECTION CARD
+========================================================= */
+
+.sectionCard {
+  margin-bottom: 18px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 8px;
+
+  box-shadow: 0 1px 2px rgba(20, 35, 59, 0.03);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.sectionHeader {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 17px 20px;
+
+  border-bottom: 1px solid var(--border);
+
+  background: #f8fafc;
+}
+
+.sectionHeader > svg {
+  color: var(--accent);
+
+  font-size: 16px;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+
+  color: var(--ink);
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.sectionHeader p {
+  margin: 3px 0 0;
+
+  color: var(--ink-faint);
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.formGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 20px;
+
+  padding: 22px;
+}
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.formGroup {
+  display: flex;
+
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+.formGroup label {
+  margin-bottom: 7px;
+
+  color: var(--ink);
+
+  font-size: 11.5px;
+
+  font-weight: 600;
+}
+
+.formGroup input,
+.formGroup select {
+  width: 100%;
+
+  height: 39px;
+
+  padding: 0 11px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 6px;
+
+  outline: none;
+
+  background: var(--surface);
+
+  color: var(--ink);
+
+  font-family: var(--font-body);
+
+  font-size: 12px;
+
+  box-sizing: border-box;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.formGroup input:focus,
+.formGroup select:focus {
+  border-color: var(--accent);
+
+  box-shadow:
+    0 0 0 3px rgba(38, 80, 126, 0.08);
+}
+
+.formGroup input::placeholder {
+  color: var(--ink-faint);
+}
+
+.formGroup small {
+  margin-top: 6px;
+
+  color: var(--ink-faint);
+
+  font-size: 10px;
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   INPUT AVEC ICONE
+========================================================= */
+
+.inputIcon {
+  position: relative;
+
+  width: 100%;
+}
+
+.inputIcon > svg {
+  position: absolute;
+
+  top: 50%;
+
+  left: 12px;
+
+  z-index: 2;
+
+  color: var(--ink-faint);
+
+  font-size: 11px;
+
+  transform: translateY(-50%);
+
+  pointer-events: none;
+}
+
+.inputIcon input,
+.inputIcon select {
+  padding-left: 32px;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.formActions {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  padding: 5px 0 25px;
+}
+
+.cancelButton,
+.saveButton {
+  height: 40px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 0 16px;
+
+  border-radius: 6px;
+
+  font-family: var(--font-body);
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.cancelButton {
+  border: 1px solid var(--border);
+
+  background: var(--surface);
+
+  color: var(--ink-soft);
+}
+
+.cancelButton:hover {
+  border-color: #cbd3df;
+
+  background: #f8fafc;
+
+  color: var(--ink);
+}
+
+.saveButton {
+  border: 1px solid var(--accent);
+
+  background: var(--accent);
+
+  color: #ffffff;
+}
+
+.saveButton:hover {
+  background: var(--accent-deep);
+
+  border-color: var(--accent-deep);
+
+  transform: translateY(-1px);
+}
+
+.saveButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loadingContainer {
+  min-height: 400px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: var(--ink-soft);
+
+  font-size: 12px;
+}
+
+.loadingContainer .spinner-border {
+  width: 30px;
+
+  height: 30px;
+
+  color: var(--accent);
+}
+
+.loadingContainer p {
+  margin-top: 14px;
+
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 991.98px) {
+
+  .mainContent {
+    margin-left: 155px;
+  }
+
+  .content {
+    padding: 30px 20px;
+
+    padding-top: 70px;
+  }
+}
+
+
+@media (max-width: 767.98px) {
+
+  .mainContent {
+    margin-left: 0;
+
+    width: 100%;
+  }
+
+  .content {
+    padding: 20px 15px;
+
+    padding-top: 72px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+
+    gap: 15px;
+
+    padding: 18px 15px;
+  }
+
+  .sectionHeader {
+    padding: 15px;
+  }
+
+  .formActions {
+    flex-direction: column-reverse;
+
+    align-items: stretch;
+  }
+
+  .cancelButton,
+  .saveButton {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 480px) {
+
+  .content {
+    padding: 15px 10px;
+
+    padding-top: 68px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 11.5px;
+  }
+}

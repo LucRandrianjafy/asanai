@@ -1,0 +1,587 @@
+/* =========================================================
+   FORMULAIRE INSCRIPTION
+========================================================= */
+
+.formContainer {
+  width: 100%;
+  max-width: 52rem;
+  transform: scale(0.80);
+  transform-origin: top center;
+}
+
+/* =========================================================
+   CARTE / BORDURE DU FORMULAIRE
+========================================================= */
+
+.registerCard {
+  width: 100%;
+
+  background: #ffffff;
+
+  /* Bordure du formulaire */
+  border: 1px solid #dbe2ea;
+  border-radius: 14px;
+
+  /* Ombre légère */
+  box-shadow: 0 4px 18px rgba(30, 46, 81, 0.08);
+
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   FORMULAIRE
+========================================================= */
+
+.registerForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.stepOne {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 0.4rem;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.loginHeader {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.loginTitle {
+  font-size: 1.28rem;
+  font-weight: 700;
+  color: #1e2e51;
+  margin: 0 0 0.4rem;
+}
+
+.loginTitle::after {
+  content: "";
+  display: block;
+  width: 60%;
+  height: 1.6px;
+  margin: 0.4rem auto 0;
+
+  background: linear-gradient(
+    to right,
+    rgba(30, 46, 81, 0),
+    #1e2e51,
+    rgba(30, 46, 81, 0)
+  );
+
+  border-radius: 1px;
+}
+
+.stepIndicator {
+  font-size: 0.65rem;
+  color: #64748b;
+  margin-top: 0.5rem;
+}
+
+/* =========================================================
+   GRILLE ETAPE 2
+========================================================= */
+
+.personalInfoGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  column-gap: 1.2rem;
+  row-gap: 1rem;
+
+  width: 100%;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.inputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.inputIcon {
+  position: absolute;
+
+  left: 0.6rem;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 1rem;
+  height: 1rem;
+
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+
+  padding:
+    0.68rem
+    0.8rem
+    0.68rem
+    2.08rem;
+
+  font-size: 0.8rem;
+
+  border-radius: 0.6rem;
+
+  border: 2px solid #e2e8f0;
+
+  background: #f8fafc;
+  color: #1e2e51;
+
+  box-sizing: border-box;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+
+  border-color: #1e2e51;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 2px rgba(30, 46, 81, 0.05);
+}
+
+.input::placeholder {
+  color: #9ca3af;
+}
+
+/* =========================================================
+   DATE
+========================================================= */
+
+input[type="date"] {
+  color: #1e2e51;
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+.inputWithToggle {
+  padding-right: 2.4rem;
+}
+
+.passwordToggle {
+  position: absolute;
+
+  right: 0.6rem;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  background: none;
+  border: none;
+
+  cursor: pointer;
+
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.passwordToggle svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.selectWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select {
+  width: 100%;
+
+  padding:
+    0.68rem
+    2.4rem
+    0.68rem
+    2.08rem;
+
+  font-size: 0.8rem;
+
+  border-radius: 0.6rem;
+
+  border: 2px solid #e2e8f0;
+
+  background: #f8fafc;
+  color: #1e2e51;
+
+  box-sizing: border-box;
+
+  cursor: pointer;
+
+  appearance: auto;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.select:focus {
+  outline: none;
+
+  border-color: #1e2e51;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 2px rgba(30, 46, 81, 0.05);
+}
+
+.select option {
+  color: #1e2e51;
+  background: #ffffff;
+}
+
+.select option:first-child {
+  color: #9ca3af;
+}
+
+/* =========================================================
+   BOUTON PRINCIPAL
+========================================================= */
+
+.submitButton {
+  width: 100%;
+
+  padding: 0.72rem 1.2rem;
+
+  border-radius: 0.6rem;
+
+  font-weight: 600;
+  font-size: 0.8rem;
+
+  background: #1e2e51;
+  color: #ffffff;
+
+  border: none;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.1s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #2a3f66;
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   BOUTONS RETOUR / INSCRIPTION
+========================================================= */
+
+.stepButtons {
+  display: flex;
+
+  gap: 0.6rem;
+
+  width: 100%;
+
+  grid-column: 1 / -1;
+}
+
+.stepButtons .submitButton {
+  flex: 1;
+}
+
+.backButton {
+  flex: 0 0 30%;
+
+  padding: 0.72rem 1.2rem;
+
+  border-radius: 0.6rem;
+
+  font-weight: 600;
+  font-size: 0.8rem;
+
+  background: #e2e8f0;
+  color: #1e2e51;
+
+  border: none;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+.backButton:hover {
+  background: #cbd5e1;
+}
+
+.backButton:active {
+  transform: translateY(1px);
+}
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+.message {
+  margin-top: 1.2rem;
+
+  padding: 0.8rem;
+
+  border-radius: 0.4rem;
+
+  font-weight: 500;
+
+  display: flex;
+  align-items: center;
+
+  gap: 0.4rem;
+
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.messageIcon {
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
+.messageSuccess {
+  background: #f0fdf4;
+
+  border-left:
+    3.2px solid #22c55e;
+
+  color: #15803d;
+}
+
+.messageError {
+  background: #fef2f2;
+
+  border-left:
+    3.2px solid #ef4444;
+
+  color: #dc2626;
+}
+
+/* =========================================================
+   MESSAGE ERREUR INSCRIPTION
+========================================================= */
+
+.errorMessage {
+  width: 100%;
+
+  padding: 0.65rem 0.8rem;
+
+  box-sizing: border-box;
+
+  background: #fef2f2;
+
+  border: 1px solid #fecaca;
+  border-left: 3px solid #ef4444;
+
+  border-radius: 0.45rem;
+
+  color: #dc2626;
+
+  font-size: 0.7rem;
+  line-height: 1.4;
+
+  grid-column: 1 / -1;
+}
+
+/* =========================================================
+   RETOUR CONNEXION
+========================================================= */
+
+.registerSwitch {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 0.2rem;
+
+  margin-top: 0.2rem;
+
+  font-size: 0.7rem;
+  line-height: 1.4;
+
+  color: #64748b;
+
+  text-align: center;
+}
+
+.registerLink {
+  background: transparent;
+
+  border: none;
+
+  padding: 0;
+
+  color: #1e2e51;
+
+  font-size: 0.7rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    text-decoration 0.2s ease;
+}
+
+.registerLink:hover {
+  color: #2a3f66;
+  text-decoration: underline;
+}
+
+/* =========================================================
+   RESPONSIVE TABLETTE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .registerCard {
+    padding: 1.6rem;
+  }
+
+  .formContainer {
+    max-width: 45rem;
+  }
+
+  .personalInfoGrid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    column-gap: 0.8rem;
+    row-gap: 0.9rem;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .registerCard {
+    padding: 1.2rem;
+
+    border-radius: 12px;
+  }
+
+  .formContainer {
+    max-width: 100%;
+
+    transform: scale(0.95);
+  }
+
+  .registerForm {
+    gap: 1.2rem;
+  }
+
+  .personalInfoGrid {
+    grid-template-columns: 1fr;
+
+    gap: 1.2rem;
+  }
+
+  .stepButtons {
+    flex-direction: column-reverse;
+  }
+
+  .backButton {
+    width: 100%;
+    flex: none;
+  }
+
+  .input {
+    font-size: 0.7rem;
+
+    padding:
+      0.52rem
+      0.6rem
+      0.52rem
+      1.8rem;
+  }
+
+  .inputIcon,
+  .passwordToggle svg {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+
+  .select {
+    font-size: 0.7rem;
+
+    padding:
+      0.52rem
+      2rem
+      0.52rem
+      1.8rem;
+  }
+
+  .registerSwitch {
+    font-size: 0.7rem;
+  }
+
+  .registerLink {
+    font-size: 0.7rem;
+  }
+}

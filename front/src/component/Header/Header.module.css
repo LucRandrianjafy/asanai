@@ -1,0 +1,773 @@
+.header {
+  --ink: #16233b;
+  --ink-soft: #55617a;
+  --ink-faint: #8a93a6;
+  --paper: #f4f6f9;
+  --surface: #ffffff;
+  --border: #e3e7ee;
+  --accent: #26507e;
+  --accent-deep: #16324f;
+  --success: #1e7952;
+  --danger: #b23838;
+
+  --font-display: "Newsreader", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  position: fixed;
+
+  top: 0;
+
+  /* ========================================
+     DESKTOP
+     Sidebar = 170px
+     ======================================== */
+  left: 170px;
+  right: 0;
+
+  height: 52.5px;
+
+  background: var(--surface);
+
+  border-bottom: 1px solid var(--border);
+
+  box-shadow: 0 2px 8px rgba(22, 35, 59, 0.06);
+
+  font-family: var(--font-body);
+
+  box-sizing: border-box;
+
+  z-index: 1000;
+}
+
+
+/* ========================================
+   HEADER CONTENT
+   ======================================== */
+
+.headerContent {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 1.2rem;
+
+  box-sizing: border-box;
+}
+
+
+/* ========================================
+   TITLE SECTION
+   ======================================== */
+
+.titleSection {
+  display: flex;
+  align-items: center;
+
+  min-width: 0;
+}
+
+.pageTitle {
+  position: relative;
+
+  margin: 0;
+  padding-left: 0.8rem;
+
+  font-family: var(--font-display);
+
+  font-size: 1.25rem;
+  font-weight: 600;
+
+  line-height: 1;
+
+  color: var(--ink);
+
+  white-space: nowrap;
+}
+
+.pageTitle::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 50%;
+
+  width: 3px;
+  height: 24px;
+
+  background: var(--accent);
+
+  border-radius: 2px;
+
+  transform: translateY(-50%);
+}
+
+
+/* ========================================
+   ACTIONS SECTION
+   ======================================== */
+
+.actionsSection {
+  display: flex;
+  align-items: center;
+
+  gap: 0.55rem;
+}
+
+
+/* ========================================
+   SEARCH
+   ======================================== */
+
+.searchWrapper {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+
+  left: 0.7rem;
+
+  color: var(--ink-faint);
+
+  font-size: 0.8rem;
+
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 180px;
+  height: 31px;
+
+  padding: 0 0.7rem 0 2rem;
+
+  background: var(--paper);
+
+  border: 1px solid var(--border);
+  border-radius: 6px;
+
+  color: var(--ink);
+
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+
+  outline: none;
+
+  box-sizing: border-box;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.searchInput::placeholder {
+  color: var(--ink-faint);
+}
+
+.searchInput:focus {
+  background: var(--surface);
+
+  border-color: var(--accent);
+
+  box-shadow: 0 0 0 2px rgba(38, 80, 126, 0.08);
+}
+
+
+/* ========================================
+   ICON BUTTON
+   ======================================== */
+
+.iconBtn {
+  position: relative;
+
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+
+  border: 1px solid transparent;
+  border-radius: 6px;
+
+  color: var(--ink-soft);
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.iconBtn:hover {
+  background: var(--paper);
+
+  border-color: var(--border);
+
+  color: var(--accent);
+}
+
+.icon {
+  font-size: 0.9rem;
+}
+
+
+/* ========================================
+   BADGE
+   ======================================== */
+
+.badge {
+  position: absolute;
+
+  top: 2px;
+  right: 2px;
+
+  min-width: 13px;
+  height: 13px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 3px;
+
+  background: var(--danger);
+
+  border: 2px solid var(--surface);
+  border-radius: 50%;
+
+  color: #ffffff;
+
+  font-size: 0.48rem;
+  font-weight: 700;
+
+  box-sizing: border-box;
+}
+
+
+/* ========================================
+   USER PROFILE
+   ======================================== */
+
+.userProfile {
+  display: flex;
+  align-items: center;
+
+  gap: 0.45rem;
+
+  padding-left: 0.6rem;
+
+  border-left: 1px solid var(--border);
+}
+
+.userIcon {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--paper);
+
+  border: 1px solid var(--border);
+  border-radius: 50%;
+
+  color: var(--accent);
+
+  font-size: 0.75rem;
+}
+
+.userName {
+  max-width: 130px;
+
+  overflow: hidden;
+
+  color: var(--ink);
+
+  font-size: 0.7rem;
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   POPUP
+   ======================================== */
+
+.popupOverlay {
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(15, 23, 42, 0.18);
+
+  z-index: 1100;
+
+  animation: popupFadeIn 0.2s ease;
+}
+
+.popupBox {
+  position: absolute;
+
+  top: 58px;
+  right: 1rem;
+
+  width: 350px;
+  max-width: calc(100vw - 2rem);
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  box-shadow: 0 10px 30px rgba(22, 35, 59, 0.12);
+
+  overflow: hidden;
+}
+
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ========================================
+   POPUP HEADER
+   ======================================== */
+
+.popupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0.85rem 1rem;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.popupHeader h3 {
+  margin: 0;
+
+  color: var(--ink);
+
+  font-family: var(--font-display);
+
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.closeBtn {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+
+  border: none;
+  border-radius: 5px;
+
+  color: var(--ink-faint);
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.closeBtn:hover {
+  background: var(--paper);
+
+  color: var(--danger);
+}
+
+
+/* ========================================
+   POPUP BODY
+   ======================================== */
+
+.popupBody {
+  max-height: 380px;
+
+  overflow-y: auto;
+}
+
+.profileSummary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 1rem 0;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.profileAvatar {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #edf4fa;
+  border: 1px solid #dce8f2;
+  color: var(--accent);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.profileSummary div:last-child {
+  min-width: 0;
+}
+
+.profileSummary strong,
+.profileSummary span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profileSummary strong {
+  color: var(--ink);
+  font-size: 0.85rem;
+}
+
+.profileSummary span {
+  margin-top: 3px;
+  color: var(--ink-soft);
+  font-size: 0.68rem;
+}
+
+.profileDetails {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 16px 1rem 8px;
+}
+
+.profileDetail {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--paper);
+}
+
+.profileDetail span,
+.profileDetail strong {
+  display: block;
+}
+
+.profileDetail span {
+  margin-bottom: 4px;
+  color: var(--ink-faint);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.profileDetail strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 0.72rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.popupBody::-webkit-scrollbar {
+  width: 5px;
+}
+
+.popupBody::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+
+.popupBody::-webkit-scrollbar-thumb {
+  background: var(--border);
+
+  border-radius: 5px;
+}
+
+.popupBody::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-faint);
+}
+
+
+/* ========================================
+   NOTIFICATION LIST
+   ======================================== */
+
+.notificationList {
+  display: flex;
+  flex-direction: column;
+}
+
+.notificationItem {
+  position: relative;
+
+  display: flex;
+  gap: 0.7rem;
+
+  padding: 0.8rem 1rem;
+
+  border-bottom: 1px solid var(--border);
+
+  transition: background 0.2s ease;
+}
+
+.notificationItem:hover {
+  background: var(--paper);
+}
+
+.notificationItem::before {
+  content: "";
+
+  flex-shrink: 0;
+
+  width: 30px;
+  height: 30px;
+
+  background: var(--paper);
+
+  border: 1px solid var(--border);
+  border-radius: 50%;
+}
+
+.notifContent {
+  min-width: 0;
+  flex: 1;
+}
+
+.notifTitle {
+  margin: 0 0 0.2rem;
+
+  color: var(--ink);
+
+  font-size: 0.72rem;
+  font-weight: 600;
+
+  line-height: 1.35;
+}
+
+.notifMeta {
+  margin: 0;
+
+  color: var(--ink-faint);
+
+  font-size: 0.62rem;
+}
+
+.notificationItem.unread {
+  background: rgba(38, 80, 126, 0.035);
+}
+
+.notificationItem.unread::after {
+  content: "";
+
+  position: absolute;
+
+  top: 50%;
+  right: 0.7rem;
+
+  width: 6px;
+  height: 6px;
+
+  background: var(--accent);
+
+  border-radius: 50%;
+
+  transform: translateY(-50%);
+}
+
+.notificationItem.read {
+  opacity: 0.75;
+}
+
+
+/* ========================================
+   POPUP FOOTER
+   ======================================== */
+
+.popupFooter {
+  padding: 0.7rem 1rem;
+
+  border-top: 1px solid var(--border);
+
+  text-align: center;
+}
+
+.popupFooter button {
+  background: none;
+
+  border: none;
+
+  color: var(--accent);
+
+  font-family: var(--font-body);
+
+  font-size: 0.68rem;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.popupFooter button:hover {
+  color: var(--accent-deep);
+
+  text-decoration: underline;
+}
+
+
+/* ========================================
+   TABLET
+   Sidebar = 155px
+   ======================================== */
+
+@media (max-width: 991.98px) {
+
+  .header {
+    left: 155px;
+  }
+
+  .headerContent {
+    padding: 0 1rem;
+  }
+
+  .pageTitle {
+    font-size: 1.1rem;
+  }
+
+  .searchInput {
+    width: 150px;
+  }
+
+  .userName {
+    max-width: 100px;
+  }
+}
+
+
+/* ========================================
+   MOBILE
+   Sidebar = caché
+   Header = pleine largeur
+   ======================================== */
+
+@media (max-width: 767.98px) {
+
+  .header {
+    left: 0;
+    right: 0;
+
+    height: 52px;
+  }
+
+  .headerContent {
+    padding: 0 0.8rem;
+  }
+
+  .pageTitle {
+    font-size: 1rem;
+  }
+
+  .pageTitle::before {
+    height: 20px;
+  }
+
+  .searchWrapper {
+    display: none;
+  }
+
+  .userName {
+    display: none;
+  }
+
+  .userProfile {
+    padding-left: 0.4rem;
+  }
+
+  .popupBox {
+    top: 57px;
+    right: 0.6rem;
+
+    width: calc(100vw - 1.2rem);
+  }
+}
+
+
+/* ========================================
+   SMALL MOBILE
+   ======================================== */
+
+@media (max-width: 575.98px) {
+
+  .header {
+    height: 50px;
+  }
+
+  .headerContent {
+    padding: 0 0.6rem;
+  }
+
+  .pageTitle {
+    font-size: 0.95rem;
+  }
+
+  .actionsSection {
+    gap: 0.3rem;
+  }
+
+  .iconBtn {
+    width: 29px;
+    height: 29px;
+  }
+
+  .userIcon {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+
+/* ========================================
+   GRAND ÉCRAN
+   Sidebar = 185px
+   ======================================== */
+
+@media (min-width: 1400px) {
+
+  .header {
+    left: 185px;
+  }
+
+  .headerContent {
+    padding: 0 1.4rem;
+  }
+
+  .pageTitle {
+    font-size: 1.35rem;
+  }
+}

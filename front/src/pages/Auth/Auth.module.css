@@ -1,0 +1,47 @@
+/* =========================================================
+   CONTENEUR GLOBAL
+========================================================= */
+
+.container {
+  min-height: 100dvh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f8fafc;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    sans-serif;
+}
+
+.authPanel {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1.6rem;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 600px) {
+  .container {
+    align-items: flex-start;
+  }
+
+  .authPanel {
+    padding: 1rem;
+  }
+}

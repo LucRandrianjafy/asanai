@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&family=Inter:wght@400;500;600;700&display=swap');
+
+/* =========================================================
+   CONTAINER GLOBAL
+========================================================= */
+
+.formateurCandidatContainer {
+  --ink: #16233b;
+  --ink-soft: #55617a;
+  --ink-faint: #8a93a6;
+  --paper: #f4f6f9;
+  --surface: #ffffff;
+  --border: #e3e7ee;
+  --accent: #26507e;
+  --accent-deep: #16324f;
+
+  --success: #1e7952;
+  --success-bg: #eaf6f0;
+
+  --warning: #a96a1d;
+  --warning-bg: #fbf2e4;
+
+  --danger: #b23838;
+  --danger-bg: #fbeaea;
+
+  --neutral: #8a93a6;
+  --neutral-bg: #eef0f3;
+
+  --font-display: "Newsreader", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  min-height: 100vh;
+  background: var(--paper);
+  font-family: var(--font-body);
+  color: var(--ink);
+}
+
+/* =========================================================
+   MAIN CONTENT
+   Sidebar desktop = 170px
+========================================================= */
+
+.mainContent {
+  flex: 1;
+  min-width: 0;
+  margin-left: 170px;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   TABLET
+   Sidebar = 155px
+========================================================= */
+
+@media (max-width: 991.98px) {
+  .mainContent {
+    margin-left: 155px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   Sidebar cachée
+========================================================= */
+
+@media (max-width: 767.98px) {
+  .mainContent {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   GRAND ÉCRAN
+   Sidebar = 185px
+========================================================= */
+
+@media (min-width: 1400px) {
+  .mainContent {
+    margin-left: 185px;
+  }
+}

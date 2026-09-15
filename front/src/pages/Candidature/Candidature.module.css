@@ -1,0 +1,647 @@
+* {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   TOKENS
+========================================================= */
+
+.container {
+  --ink: #16233b;
+  --ink-soft: #55617a;
+  --ink-faint: #8a93a6;
+
+  --paper: #f5f7fb;
+  --surface: #ffffff;
+  --border: #e3e7ee;
+
+  --accent: #26507e;
+  --accent-deep: #16324f;
+  --accent-bg: #eef4fa;
+
+  --success: #1e7952;
+  --success-bg: #eaf6f0;
+
+  --warning: #a96a1d;
+  --warning-bg: #fbf2e4;
+
+  --danger: #b23838;
+  --danger-bg: #fbeaea;
+
+  --neutral: #8a93a6;
+  --neutral-bg: #eef0f3;
+
+  --font-display: "Newsreader", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  min-height: 100vh;
+  width: 100%;
+  background: var(--paper);
+  overflow-x: hidden;
+}
+
+.mainArea {
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+  margin-top: 3%;
+  margin-left: 12.5%;
+}
+
+.content {
+  padding: 14px 18px;
+  padding-top: 45px;
+  max-width: 1150px;
+  margin: 0 auto;
+  width: 100%;
+  font-family: var(--font-body);
+}
+
+.pageHeader {
+  margin-bottom: 16px;
+}
+
+.pageHeader h2 {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: 25px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.pageHeader p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 14.5px;
+}
+
+/* =========================================================
+   STEPS — quiet, no card chrome, connecting hairline
+========================================================= */
+
+.steps {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink-faint);
+}
+
+.stepNumber {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--ink-faint);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 12px;
+  flex-shrink: 0;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.step strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.step span {
+  display: block;
+  font-size: 11.5px;
+  margin-top: 1px;
+}
+
+.activeStep {
+  color: var(--accent);
+}
+
+.activeStep .stepNumber {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.completedStep {
+  color: var(--success);
+}
+
+.completedStep .stepNumber {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.stepLine {
+  height: 1px;
+  flex: 1;
+  background: var(--border);
+  margin: 0 14px;
+}
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+.errorMessage,
+.successMessage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  font-size: 13.5px;
+}
+
+.errorMessage {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid #f3d0d0;
+}
+
+.successMessage {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid #c8e8d8;
+}
+
+.messageIcon {
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 2px rgba(20, 35, 59, 0.03);
+  width: 100%;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cardHeader h3 {
+  margin: 0 0 3px;
+  font-family: var(--font-display);
+  color: var(--ink);
+  font-size: 16.5px;
+  font-weight: 600;
+}
+
+.cardHeader p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 12.5px;
+}
+
+/* =========================================================
+   DOCUMENTS
+========================================================= */
+
+.documentsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.documentItem {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 13px;
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.documentItem:hover {
+  border-color: var(--accent);
+  box-shadow: 0 3px 10px rgba(38, 80, 126, 0.07);
+}
+
+.documentIcon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.documentInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.documentInfo label {
+  display: block;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 2px;
+  font-size: 12.5px;
+}
+
+.documentInfo p {
+  margin: 0 0 6px;
+  color: var(--ink-soft);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.required {
+  color: var(--danger);
+  margin-left: 2px;
+}
+
+.format {
+  display: inline-block;
+  font-size: 10px;
+  color: var(--ink-faint);
+  background: var(--neutral-bg);
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-bottom: 7px;
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileButton {
+  display: inline-block !important;
+  cursor: pointer;
+  background: var(--accent-bg);
+  color: var(--accent) !important;
+  border: 1px solid #cfdeeb;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.fileButton:hover {
+  background: var(--accent);
+  color: white !important;
+}
+
+.fileName {
+  margin-top: 6px;
+  color: var(--ink-soft);
+  font-size: 12px;
+  word-break: break-word;
+}
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.infoBox {
+  margin-top: 14px;
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  background: var(--accent-bg);
+  border: 1px solid #d8e5f0;
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 10px 14px;
+  color: var(--accent-deep);
+}
+
+.infoBox span {
+  font-weight: 700;
+}
+
+.infoBox p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.primaryButton,
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 6px;
+  padding: 9px 16px;
+
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+
+  gap: 8px;
+}
+
+.primaryButton {
+  background: var(--ink);
+  color: white;
+}
+
+.primaryButton:hover {
+  background: var(--accent-deep);
+  transform: translateX(2px);
+}
+
+.backButton {
+  background: var(--neutral-bg);
+  color: var(--ink-soft);
+  border: 1px solid var(--border);
+}
+
+.backButton:hover {
+  background: var(--border);
+}
+
+/* =========================================================
+   SCORE
+========================================================= */
+
+.scoreBadge {
+  min-width: 84px;
+  text-align: center;
+  background: var(--accent-bg);
+  border: 1px solid #d8e5f0;
+  border-radius: 8px;
+  padding: 7px 12px;
+}
+
+.scoreBadge span {
+  display: block;
+  font-size: 11.5px;
+  color: var(--ink-soft);
+}
+
+.scoreBadge strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--accent);
+}
+
+/* =========================================================
+   SKILL MATCHING
+========================================================= */
+
+.skillGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.skillCard {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  min-width: 0;
+}
+
+.skillHeader {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 12px;
+}
+
+.skillIcon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.skillHeader h4 {
+  margin: 0 0 1px;
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.skillHeader span {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.select {
+  width: 100%;
+  height: 36px;
+  border: 1px solid #d7dce4;
+  border-radius: 6px;
+  padding: 0 10px;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(38, 80, 126, 0.1);
+}
+
+.scoreInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 9px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.scoreInfo span {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.scoreInfo strong {
+  color: var(--accent);
+  font-size: 14px;
+}
+
+/* =========================================================
+   TOTAL SCORE
+========================================================= */
+
+.totalScoreBox {
+  margin-top: 14px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 8px;
+}
+
+.totalScoreBox > div {
+  padding-right: 8px;
+  border-right: 1px solid var(--border);
+  min-width: 0;
+}
+
+.totalScoreBox > div:last-child {
+  border-right: none;
+}
+
+.totalScoreBox span {
+  display: block;
+  color: var(--ink-soft);
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+
+.totalScoreBox strong {
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.totalScore {
+  text-align: right;
+}
+
+.totalScore strong {
+  font-family: var(--font-display);
+  color: var(--accent);
+  font-size: 18px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 991px) {
+  .mainArea {
+    margin-left: 0;
+  }
+
+  .content {
+    padding: 12px 10px;
+    padding-top: 60px;
+  }
+}
+
+@media (max-width: 700px) {
+  .documentsGrid,
+  .skillGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .steps {
+    padding: 0;
+  }
+
+  .stepLine {
+    margin: 0 6px;
+  }
+
+  .step span {
+    display: none;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .cardHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .totalScoreBox {
+    grid-template-columns: 1fr;
+  }
+
+  .totalScoreBox > div {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 6px 0;
+  }
+
+  .totalScoreBox > div:last-child {
+    border-bottom: none;
+  }
+
+  .totalScore {
+    text-align: left;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .primaryButton,
+  .backButton {
+    width: 100%;
+  }
+}
