@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  FaClipboardCheck,
   FaGraduationCap,
   FaCalendarAlt,
   FaArrowRight,
@@ -24,51 +23,42 @@ import { getQuestionsByTestNiveauId } from "../../api/testNiveauQuestion";
 const Evaluation = () => {
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] = useState("niveau");
-
-  const [evaluations, setEvaluations] = useState([]);
-
   const [testsNiveau, setTestsNiveau] = useState([]);
 
   const [loadingTests, setLoadingTests] = useState(false);
+  const [loadingQuestions, setLoadingQuestions] = useState(false);
 
   const [errorTests, setErrorTests] = useState("");
 
-  const [loadingQuestions, setLoadingQuestions] = useState(false);
+  const [completedTests, setCompletedTests] = useState([]);
 
-  const [completedEvaluations, setCompletedEvaluations] =
-    useState([]);
+  const [answeredTestIds, setAnsweredTestIds] = useState([]);
 
-  const [completedTests, setCompletedTests] =
-    useState([]);
-
+  /*
+   * ============================================================
+   * RÉCUPÉRATION DES TESTS TERMINÉS
+   * ============================================================
+   */
   useEffect(() => {
     try {
-      const savedEvaluations =
-        localStorage.getItem("completedEvaluations");
-
-      const savedTests =
-        localStorage.getItem("completedTests");
-
-      if (savedEvaluations) {
-        setCompletedEvaluations(
-          JSON.parse(savedEvaluations)
-        );
-      }
+      const savedTests = localStorage.getItem("completedTests");
 
       if (savedTests) {
-        setCompletedTests(
-          JSON.parse(savedTests)
-        );
+        setCompletedTests(JSON.parse(savedTests));
       }
     } catch (error) {
       console.error(
-        "Erreur récupération tests de niveau terminés :",
+        "Erreur récupération des tests de niveau terminés :",
         error
       );
     }
   }, []);
 
+  /*
+   * ============================================================
+   * RÉCUPÉRATION DES TESTS TECHNIQUES
+   * ============================================================
+   */
   useEffect(() => {
     const fetchTestsNiveau = async () => {
       try {
@@ -78,69 +68,84 @@ const Evaluation = () => {
         const userData = localStorage.getItem("user");
 
         if (!userData) {
-          setErrorTests(
-            "Utilisateur non connecté."
-          );
-
-          setEvaluations([]);
+          setErrorTests("Utilisateur non connecté.");
           setTestsNiveau([]);
-
           return;
         }
 
         const user = JSON.parse(userData);
 
-        const idUsers = user?.id;
+        const idUsers = user?.id ?? user?.userId ?? user?.idUser;
 
         if (!idUsers) {
           setErrorTests(
             "Impossible de récupérer l'identifiant de l'utilisateur."
           );
 
-          setEvaluations([]);
           setTestsNiveau([]);
-
           return;
         }
 
-        const data =
-          await getTestNiveauByUserId(idUsers);
+        const data = await getTestNiveauByUserId(idUsers);
+        console.log(
+          "Tests techniques récupérés :",
+          data
+        );
 
+        /*
+         * On récupère uniquement les tests techniques :
+         * idTestType = 1
+         */
         const formattedTests = Array.isArray(data)
-          ? data.map((test) => ({
-              id: test.id,
-              idTestType: Number(test.idTestType),
+          ? data
+              .filter(
+                (test) => Number(test.idTestType) === 1
+              )
+              .map((test) => ({
+                id: test.id,
 
-              titre:
-                test.description ||
-                `Test technique #${test.id}`,
+                idTestType: Number(test.idTestType),
 
-              description:
-                test.description ||
-                "Test permettant d'évaluer votre niveau.",
+                titre:
+                  test.description ||
+                  `Test technique #${test.id}`,
 
-              dateDebut: test.startDate
-                ? test.startDate.substring(0, 10)
-                : null,
+                description:
+                  test.description ||
+                  "Test permettant d'évaluer votre niveau technique.",
 
-              dateFin: test.endDate
-                ? test.endDate.substring(0, 10)
-                : null,
+                dateDebut: test.startDate
+                  ? test.startDate.substring(0, 10)
+                  : null,
 
-              idCampus:
-                test.idCampus ??
-                test.id_campus ??
-                null,
+                dateFin: test.endDate
+                  ? test.endDate.substring(0, 10)
+                  : null,
 
-              campusNom: null,
-            }))
+                idCampus:
+                  test.idCampus ??
+                  test.id_campus ??
+                  null,
+
+                campusNom: null,
+              }))
           : [];
+
+        /*
+         * ========================================================
+         * RÉCUPÉRATION DES CAMPUS
+         * ========================================================
+         */
 
         const campusIds = [
           ...new Set(
             formattedTests
               .map((test) => test.idCampus)
-              .filter((campusId) => campusId !== null && campusId !== undefined)
+              .filter(
+                (campusId) =>
+                  campusId !== null &&
+                  campusId !== undefined
+              )
           ),
         ];
 
@@ -163,31 +168,54 @@ const Evaluation = () => {
                 error
               );
 
-              return [Number(campusId), `Campus ${campusId}`];
+              return [
+                Number(campusId),
+                `Campus ${campusId}`,
+              ];
             }
           })
         );
 
         const campusNames = Object.fromEntries(campusEntries);
 
-        const testsWithCampus = formattedTests.map((test) => ({
-          ...test,
-          campusNom: test.idCampus
-            ? campusNames[Number(test.idCampus)]
-            : null,
-        }));
+        const testsWithCampus = formattedTests.map(
+          (test) => ({
+            ...test,
 
-        setEvaluations(
-          testsWithCampus.filter(
-            (test) => test.idTestType === 2
-          )
+            campusNom: test.idCampus
+              ? campusNames[Number(test.idCampus)]
+              : null,
+          })
         );
 
-        setTestsNiveau(
-          testsWithCampus.filter(
-            (test) => test.idTestType === 1
-          )
+        const questionResults = await Promise.allSettled(
+          testsWithCampus.map(async (test) => {
+            const questions = await getQuestionsByTestNiveauId(test.id);
+
+            return {
+              id: test.id,
+              hasAnswers:
+                Array.isArray(questions) &&
+                questions.some(
+                  (question) =>
+                    question.answerIdx !== null &&
+                    question.answerIdx !== undefined
+                ),
+            };
+          })
         );
+
+        setAnsweredTestIds(
+          questionResults
+            .filter(
+              (result) =>
+                result.status === "fulfilled" &&
+                result.value.hasAnswers
+            )
+            .map((result) => result.value.id)
+        );
+
+        setTestsNiveau(testsWithCampus);
       } catch (error) {
         console.error(
           "Erreur récupération des tests techniques :",
@@ -198,7 +226,6 @@ const Evaluation = () => {
           "Erreur lors de la récupération des tests techniques."
         );
 
-        setEvaluations([]);
         setTestsNiveau([]);
       } finally {
         setLoadingTests(false);
@@ -207,6 +234,12 @@ const Evaluation = () => {
 
     fetchTestsNiveau();
   }, []);
+
+  /*
+   * ============================================================
+   * FORMATAGE DES DATES
+   * ============================================================
+   */
 
   const formatDate = (date) => {
     if (!date) {
@@ -218,11 +251,7 @@ const Evaluation = () => {
         `${date}T00:00:00`
       );
 
-      if (
-        Number.isNaN(
-          parsedDate.getTime()
-        )
-      ) {
+      if (Number.isNaN(parsedDate.getTime())) {
         return date;
       }
 
@@ -238,6 +267,12 @@ const Evaluation = () => {
       return date;
     }
   };
+
+  /*
+   * ============================================================
+   * DATES DISPONIBILITÉ
+   * ============================================================
+   */
 
   const getToday = () => {
     const today = new Date();
@@ -258,11 +293,7 @@ const Evaluation = () => {
       `${date}T00:00:00`
     );
 
-    if (
-      Number.isNaN(
-        parsedDate.getTime()
-      )
-    ) {
+    if (Number.isNaN(parsedDate.getTime())) {
       return null;
     }
 
@@ -272,11 +303,13 @@ const Evaluation = () => {
   const isAvailable = (item) => {
     const today = getToday();
 
-    const startDate =
-      convertDate(item.dateDebut);
+    const startDate = convertDate(
+      item.dateDebut
+    );
 
-    const endDate =
-      convertDate(item.dateFin);
+    const endDate = convertDate(
+      item.dateFin
+    );
 
     if (!startDate || !endDate) {
       return false;
@@ -288,13 +321,19 @@ const Evaluation = () => {
     );
   };
 
+  /*
+   * ============================================================
+   * STATUT DU TEST
+   * ============================================================
+   */
+
   const getStatus = (
     item,
     completed
   ) => {
     if (completed) {
       return {
-        label: "Déjà passée",
+        label: "Déjà passé",
         type: "completed",
         icon: <FaCheckCircle />,
       };
@@ -302,11 +341,13 @@ const Evaluation = () => {
 
     const today = getToday();
 
-    const startDate =
-      convertDate(item.dateDebut);
+    const startDate = convertDate(
+      item.dateDebut
+    );
 
-    const endDate =
-      convertDate(item.dateFin);
+    const endDate = convertDate(
+      item.dateFin
+    );
 
     if (!startDate || !endDate) {
       return {
@@ -341,18 +382,15 @@ const Evaluation = () => {
 
   /*
    * ============================================================
-   * DEMARRER UNE EVALUATION / UN TEST DE NIVEAU
+   * DÉMARRER LE TEST TECHNIQUE
    * ============================================================
    */
+
   const handleStart = async (item) => {
     if (!isAvailable(item)) {
       return;
     }
 
-    /*
-     * Les évaluations et les tests de niveau utilisent
-     * les questions réelles avant d'ouvrir le QCM.
-     */
     try {
       setLoadingQuestions(true);
       setErrorTests("");
@@ -372,9 +410,6 @@ const Evaluation = () => {
         questions
       );
 
-      /*
-       * Vérification de la réponse de l'API.
-       */
       if (!Array.isArray(questions)) {
         throw new Error(
           "Les questions reçues ne sont pas dans un format valide."
@@ -383,14 +418,34 @@ const Evaluation = () => {
 
       if (questions.length === 0) {
         setErrorTests(
-          "Aucune question n'est disponible pour cet élément."
+          "Aucune question n'est disponible pour ce test technique."
+        );
+
+        return;
+      }
+
+      const alreadyAnswered = questions.some(
+        (question) =>
+          question.answerIdx !== null &&
+          question.answerIdx !== undefined
+      );
+
+      if (alreadyAnswered) {
+        setAnsweredTestIds((previous) =>
+          previous.includes(item.id)
+            ? previous
+            : [...previous, item.id]
+        );
+
+        setErrorTests(
+          "Ce test technique a déjà été passé et ne peut pas être recommencé."
         );
 
         return;
       }
 
       /*
-       * On transmet les vraies questions à la page QCM.
+       * Envoi des vraies questions à la page QCM
        */
       navigate(
         `/recrue/qcm/${item.id}`,
@@ -409,29 +464,30 @@ const Evaluation = () => {
 
       setErrorTests(
         error?.message ||
-        "Erreur lors de la récupération des questions."
+          "Erreur lors de la récupération des questions."
       );
     } finally {
       setLoadingQuestions(false);
     }
   };
 
+  /*
+   * ============================================================
+   * VOIR LES RÉPONSES
+   * ============================================================
+   */
+
   const handleViewAnswers = (item) => {
-    if (activeTab === "evaluation") {
-      navigate(
-        `/recrue/evaluation/${item.id}/reponses`
-      );
-    } else {
-      navigate(
-        `/recrue/test-niveau/${item.id}/reponses`
-      );
-    }
+    navigate(
+      `/recrue/test-niveau/${item.id}/reponses`
+    );
   };
 
-  const currentList =
-    activeTab === "evaluation"
-      ? evaluations
-      : testsNiveau;
+  /*
+   * ============================================================
+   * RENDER
+   * ============================================================
+   */
 
   return (
     <div
@@ -441,76 +497,39 @@ const Evaluation = () => {
 
       <div className={styles.mainArea}>
         <Header
-          title="Evaluation"
+          title="Test technique"
           showSearch={false}
         />
 
         <div className={styles.content}>
+
+          {/* ==================================================
+              EN-TÊTE
+              ================================================== */}
+
           <div className={styles.pageHeader}>
             <div className={styles.pageTitleIcon}>
-              {activeTab === "evaluation" ? (
-                <FaClipboardCheck />
-              ) : (
-                <FaGraduationCap />
-              )}
+              <FaGraduationCap />
             </div>
 
             <div>
               <h1>
-                {activeTab === "evaluation"
-                  ? "Mes évaluations"
-                  : "Mes tests techniques"}
+                Mes tests techniques
               </h1>
 
               <p>
-                {activeTab === "evaluation"
-                  ? "Consultez et passez vos évaluations disponibles."
-                  : "Consultez et passez vos tests techniques disponibles."}
+                Consultez et passez vos tests techniques disponibles.
               </p>
             </div>
           </div>
 
-          <div className={styles.tabs}>
-            <button
-              type="button"
-              className={
-                activeTab === "niveau"
-                  ? `${styles.tabButton} ${styles.active}`
-                  : styles.tabButton
-              }
-              onClick={() =>
-                setActiveTab("niveau")
-              }
-            >
-              <FaGraduationCap />
-
-              <span>
-                Test technique
-              </span>
-            </button>
-
-            <button
-              type="button"
-              className={
-                activeTab === "evaluation"
-                  ? `${styles.tabButton} ${styles.active}`
-                  : styles.tabButton
-              }
-              onClick={() =>
-                setActiveTab("evaluation")
-              }
-            >
-              <FaClipboardCheck />
-
-              <span>
-                Évaluations
-              </span>
-            </button>
-          </div>
+          {/* ==================================================
+              LISTE DES TESTS
+              ================================================== */}
 
           <div className={styles.evaluationList}>
-            {activeTab === "niveau" &&
-            loadingTests ? (
+
+            {loadingTests ? (
               <div className={styles.emptyState}>
                 <div className={styles.emptyIcon}>
                   <FaHourglassHalf />
@@ -553,39 +572,31 @@ const Evaluation = () => {
                   {errorTests}
                 </p>
               </div>
-            ) : currentList.length === 0 ? (
+            ) : testsNiveau.length === 0 ? (
               <div className={styles.emptyState}>
                 <div className={styles.emptyIcon}>
                   <FaFileAlt />
                 </div>
 
                 <h3>
-                  {activeTab === "evaluation"
-                    ? "Aucune évaluation"
-                    : "Aucun test technique"}
+                  Aucun test technique
                 </h3>
 
                 <p>
-                  {activeTab === "evaluation"
-                    ? "Aucune évaluation n'est disponible pour le moment."
-                    : "Aucun test technique n'est disponible pour le moment."}
+                  Aucun test technique n'est disponible
+                  pour le moment.
                 </p>
               </div>
             ) : (
-              currentList.map((item) => {
-                const completed =
-                  activeTab === "evaluation"
-                    ? completedEvaluations.includes(
-                        item.id
-                      )
-                    : completedTests.includes(
-                        item.id
-                      );
+              testsNiveau.map((item) => {
+                const completed = completedTests.includes(item.id);
+
+                const alreadyAnswered = answeredTestIds.includes(item.id);
 
                 const status =
                   getStatus(
                     item,
-                    completed
+                    completed || alreadyAnswered
                   );
 
                 const available =
@@ -600,15 +611,20 @@ const Evaluation = () => {
                     }
                     key={item.id}
                   >
+                    {/* ==================================================
+                        ICÔNE
+                        ================================================== */}
+
                     <div className={styles.cardIcon}>
-                      {activeTab === "evaluation" ? (
-                        <FaClipboardCheck />
-                      ) : (
-                        <FaGraduationCap />
-                      )}
+                      <FaGraduationCap />
                     </div>
 
                     <div className={styles.cardBody}>
+
+                      {/* ================================================
+                          HEADER CARD
+                          ================================================ */}
+
                       <div
                         className={
                           styles.cardHeader
@@ -634,6 +650,10 @@ const Evaluation = () => {
                           {status.label}
                         </span>
                       </div>
+
+                      {/* ================================================
+                          INFORMATIONS
+                          ================================================ */}
 
                       <div
                         className={
@@ -702,12 +722,17 @@ const Evaluation = () => {
 
                             <strong>
                               {item.idCampus
-                                ? item.campusNom || `Campus ${item.idCampus}`
+                                ? item.campusNom ||
+                                  `Campus ${item.idCampus}`
                                 : "Campus non renseigné"}
                             </strong>
                           </div>
                         </div>
                       </div>
+
+                      {/* ================================================
+                          FOOTER
+                          ================================================ */}
 
                       <div
                         className={
@@ -732,6 +757,16 @@ const Evaluation = () => {
 
                             <FaArrowRight />
                           </button>
+                        ) : alreadyAnswered ? (
+                          <button
+                            type="button"
+                            className={styles.disabledButton}
+                            disabled
+                          >
+                            <FaCheckCircle />
+
+                            Test technique déjà passé
+                          </button>
                         ) : (
                           <button
                             type="button"
@@ -750,15 +785,9 @@ const Evaluation = () => {
                           >
                             {available ? (
                               <>
-                                {activeTab === "evaluation" ? (
-                                  <FaClipboardCheck />
-                                ) : (
-                                  <FaGraduationCap />
-                                )}
+                                <FaGraduationCap />
 
-                                {activeTab === "evaluation"
-                                  ? "Passer l'évaluation"
-                                  : "Passer le test technique"}
+                                Passer le test technique
 
                                 <FaArrowRight />
                               </>
@@ -766,9 +795,7 @@ const Evaluation = () => {
                               <>
                                 <FaLock />
 
-                                {activeTab === "evaluation"
-                                  ? "Évaluation indisponible"
-                                  : "Test technique indisponible"}
+                                Test technique indisponible
                               </>
                             )}
                           </button>
