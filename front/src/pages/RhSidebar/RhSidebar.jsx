@@ -12,8 +12,7 @@ const RhSidebar = () => {
   const [open, setOpen] = useState(false);
 
   const menuItems = [
-    { path: "/rh/overview", icon: FaTachometerAlt, label: "Candidat" },
-    { path: "/rh/criteres", icon: FaTachometerAlt, label: "Critères" }
+    { path: "/rh/overview", icon: FaTachometerAlt, label: "Candidat" }
   ];
 
   const handleCloseSidebar = () => setOpen(false);

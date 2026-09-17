@@ -41,6 +41,7 @@ function App() {
             <Route path="/admin/users/:id" element={<UserDetails />} />
             <Route path="/admin/users/:id/edit" element={<UserEdit />} />
             <Route path="/admin/candidat/:id" element={<CandidatDetails />} />
+            <Route path="/admin/criteres" element={<CriteresAppreciation />} />
             
             <Route path="/recrue/overview" element={<Overview />} />
             <Route path="/recrue/candidature" element={<Candidature />} />
@@ -53,7 +54,6 @@ function App() {
             <Route path="/adminit/qcm/:testId" element={<TestNiveau />} />
 
             <Route path="/rh/overview" element={<Rh />} />
-            <Route path="/rh/criteres" element={<CriteresAppreciation />} />
 
             <Route path="/formateur/overview" element={<Formateur />} />
             <Route path="/formateur/candidat" element={<FormateurCandidat />} />

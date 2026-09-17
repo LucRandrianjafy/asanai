@@ -13,7 +13,7 @@ import {
 
 import styles from "./CriteresAppreciation.module.css";
 
-import RhSidebar from "../../pages/RhSidebar";
+import Sidebar from "../../pages/Sidebar";
 import Header from "../../component/Header/Header";
 
 import {
@@ -375,7 +375,7 @@ const CriteresAppreciation = () => {
 
   return (
     <div className={styles.container}>
-      <RhSidebar />
+      <Sidebar />
 
       <div className={styles.mainArea}>
         <Header

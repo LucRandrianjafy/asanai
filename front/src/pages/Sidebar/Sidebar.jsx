@@ -17,6 +17,7 @@ const Sidebar = () => {
   const menuItems = [
     // { path: "/admin/overviews", icon: FaTachometerAlt, label: "Overview" },
     { path: "/admin/programmes", icon: FaGraduationCap, label: "Programmes" },
+    { path: "/admin/criteres", icon: FaTachometerAlt, label: "Critères" },
     { path: "/admin/users", icon: FaUsers, label: "Users" },
     { path: "/admin/overview", icon: FaUserGraduate, label: "Candidat" }
   ];
