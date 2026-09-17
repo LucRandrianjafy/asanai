@@ -4,7 +4,10 @@ import React, {
   useState,
   useCallback,
 } from "react";
-import { useLocation } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
@@ -18,6 +21,7 @@ import {
 import styles from "./Qcm.module.css";
 
 import { updateAnswerIdx } from "../../api/testNiveauQuestion";
+import RecrueSidebar from "../RecrueSidebar";
 
 /* =========================================================
    NOMBRE D'INFRACTIONS TOLÉRÉES
@@ -111,6 +115,13 @@ const Qcm = ({
   onFail,
 }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!Array.isArray(location.state?.questions) || location.state.questions.length === 0) {
+      navigate("/recrue/evaluation", { replace: true });
+    }
+  }, [location.state, navigate]);
 
   /* =========================================================
      QUESTIONS VENANT DE Evaluation.jsx
@@ -818,7 +829,9 @@ const Qcm = ({
 
   if (examStatus === "finished") {
     return (
-      <div className={styles.container}>
+      <div className={`d-flex flex-column flex-lg-row ${styles.container}`}>
+        <RecrueSidebar />
+
         <div className={styles.endScreen}>
           <div
             className={`${styles.endIcon} ${styles.successIcon}`}
