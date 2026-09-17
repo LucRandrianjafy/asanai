@@ -215,3 +215,19 @@ CREATE TABLE decision_finale (
     CONSTRAINT chk_decision_valeur
         CHECK (decision IN ('admis', 'non-retenu', 'liste-attente'))
 );
+
+
+CREATE TABLE notification (
+    id SERIAL PRIMARY KEY,
+    id_user INTEGER NOT NULL,
+    titre VARCHAR(150) NOT NULL,
+    message TEXT NOT NULL,
+    statut_vu BOOLEAN NOT NULL DEFAULT FALSE,
+    date_notification TIMESTAMP NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT fk_notification_user
+        FOREIGN KEY (id_user)
+        REFERENCES users(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
